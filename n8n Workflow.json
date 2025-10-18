@@ -17,8 +17,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        -736,
-        -1280
+        -976,
+        -256
       ],
       "id": "d3ebda3a-e046-448e-94cc-8b2410dc207e",
       "name": "Get User(s) Info",
@@ -38,8 +38,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        384,
-        -992
+        144,
+        32
       ],
       "id": "8e03cd67-643e-451d-ab03-70892f04f7d7",
       "name": "Get List of RSVP Users",
@@ -68,8 +68,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        608,
-        -1088
+        368,
+        -64
       ],
       "id": "01c00b35-f35f-43f8-a5f4-22225782aea9",
       "name": "Start Message",
@@ -105,8 +105,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1056,
-        -1088
+        816,
+        -64
       ],
       "id": "801ea96d-4887-4614-a7ee-b078004082f5",
       "name": "RSVP People",
@@ -142,8 +142,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        -1632,
-        -800
+        -1872,
+        224
       ],
       "id": "8a97946e-14c6-4e51-b2e4-915f7be9bd71",
       "name": "Get Newest Event",
@@ -163,8 +163,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        160,
-        -992
+        -80,
+        32
       ],
       "id": "1cb45fb4-12b3-4a2e-a6d4-4de172505747",
       "name": "Merge Discord Data"
@@ -177,8 +177,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -64,
-        -1088
+        -304,
+        -64
       ],
       "id": "6ccbdd7c-5cb6-4281-ae8e-5e24d37715a2",
       "name": "Merge Discord and Real Data"
@@ -191,8 +191,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -288,
-        -1088
+        -528,
+        -64
       ],
       "id": "37d5a048-71bc-4dec-b9e1-d1497df56153",
       "name": "Merge"
@@ -205,8 +205,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        832,
-        -1088
+        592,
+        -64
       ],
       "id": "313a1564-c049-49ec-91f4-ccb6e006d80e",
       "name": "Format to a list of Names"
@@ -232,8 +232,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -960,
-        -1088
+        -1200,
+        -64
       ],
       "id": "70a919cb-8813-4426-b4c8-7a4b62d8821a",
       "name": "Get List of Real Name for Discord Accounts",
@@ -353,8 +353,8 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        832,
-        -896
+        592,
+        128
       ],
       "id": "464be502-dc51-41d4-ab02-ddde615f5052",
       "name": "Send Sign out List",
@@ -388,8 +388,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        -1184,
-        -1088
+        -1424,
+        -64
       ],
       "id": "b0e5de90-76e3-45d6-9859-27a19250c5d5",
       "name": "Send a Confirm Flow Start Msg for RSVP",
@@ -424,8 +424,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        832,
-        -1280
+        592,
+        -256
       ],
       "id": "fa7ad6ae-8d61-4119-bf12-00b97d62c5c5",
       "name": "Add a role to a member",
@@ -460,8 +460,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        1056,
-        -896
+        816,
+        128
       ],
       "id": "f4cb2b62-01a5-4f56-877b-8918bd5383f9",
       "name": "Send a message",
@@ -482,8 +482,8 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        608,
-        -1280
+        368,
+        -256
       ],
       "id": "940a7932-3627-4627-ad81-1aaa2bcd3593",
       "name": "Split Out for ID"
@@ -496,8 +496,8 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        608,
-        -896
+        368,
+        128
       ],
       "id": "37edd299-13a9-40d8-9d80-ee080e4f14df",
       "name": "Split Out for Names"
@@ -589,7 +589,7 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -1632,
+        -1648,
         -2112
       ],
       "id": "ae626649-a64c-48d7-b7f6-197699b4b3ad",
@@ -628,8 +628,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -1408,
-        -800
+        -1648,
+        224
       ],
       "id": "b46a0d82-27b5-4519-8d6a-8d8e4345de87",
       "name": "Has Event Started"
@@ -643,8 +643,8 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        -512,
-        -1088
+        -752,
+        -64
       ],
       "id": "c77a389e-ade8-49c1-a9ba-8b2b947e8813",
       "name": "Aggregate Real User Data"
@@ -665,8 +665,8 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        -512,
-        -1280
+        -752,
+        -256
       ],
       "id": "9672501b-17eb-4050-b10f-d7755fc61cb1",
       "name": "Aggregate Discord User Data"
@@ -694,8 +694,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        -1184,
-        -704
+        -1424,
+        320
       ],
       "id": "77f03e0f-4177-4c1b-8616-d10a0dbbe32f",
       "name": "Send a Confirm Flow Start Msg for Removing RSVP",
@@ -723,7 +723,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        -1856,
+        -1872,
         -2112
       ],
       "id": "9014f37e-17bb-487a-9dc7-dc62dafaebf0",
@@ -744,8 +744,8 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -288,
-        -704
+        -528,
+        320
       ],
       "id": "3169d73c-2841-49a5-a67a-8d53ad790f31",
       "name": "Split Out for ID Again"
@@ -773,8 +773,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        -64,
-        -704
+        -304,
+        320
       ],
       "id": "f1210632-aab3-4d77-b001-4bfc4a9f79bf",
       "name": "Remove a RSVP Confirmed to a User",
@@ -794,8 +794,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -960,
-        -704
+        -1200,
+        320
       ],
       "id": "f081f006-e3d4-4877-bbc7-ff65d69f3c0a",
       "name": "Strip Event msgID - F"
@@ -824,8 +824,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        -736,
-        -704
+        -976,
+        320
       ],
       "id": "60bfd5d0-d6c3-49b4-9ec3-fb7bfb9c0539",
       "name": "Get Announcement Msg - F",
@@ -845,8 +845,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -512,
-        -704
+        -752,
+        320
       ],
       "id": "6e1a0ee9-de2f-4aef-b1e9-07f79ac308ac",
       "name": "Strips RSVP - F"
@@ -859,8 +859,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -512,
-        -896
+        -752,
+        128
       ],
       "id": "2c8e239e-c539-434e-bc38-0f25128e48c5",
       "name": "Strip Event msgID - T"
@@ -889,8 +889,8 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        -288,
-        -896
+        -528,
+        128
       ],
       "id": "63ec2365-fe75-4c32-82cf-bb5b05eb0cfc",
       "name": "Get Announcement Msg - T",
@@ -910,22 +910,11 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -64,
-        -896
+        -304,
+        128
       ],
       "id": "839c0995-2faf-4a51-a0aa-b5024c0d5285",
       "name": "Strips RSVP and Length - T"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -2080,
-        -992
-      ],
-      "id": "6d4a93d7-1aab-49df-92e3-3697c561d6b7",
-      "name": "Manual Start"
     },
     {
       "parameters": {
@@ -944,8 +933,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1856,
-        -992
+        -2096,
+        32
       ],
       "id": "88f1b412-1d20-4429-86b9-60a91d0e17f0",
       "name": "Manual ID"
@@ -955,7 +944,7 @@
       "type": "n8n-nodes-base.errorTrigger",
       "typeVersion": 1,
       "position": [
-        -2080,
+        -2096,
         -2336
       ],
       "id": "5aa698b6-1106-4474-bd6a-7a27a206c930",
@@ -984,7 +973,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        -1856,
+        -1872,
         -2336
       ],
       "id": "babdd939-7bae-4f11-bad8-3fcacab108c2",
@@ -1000,14 +989,14 @@
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "a296703c-fceb-4bca-b628-9b57417e3b62",
+        "path": "techcrew/scrape",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -1856,
-        -800
+        -2096,
+        224
       ],
       "id": "387c8e16-e664-4f6b-b0b2-f1e2771fe298",
       "name": "Webhook for Events",
@@ -1024,7 +1013,7 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -2080,
+        -2096,
         -2112
       ],
       "id": "9c5dfe4f-00f4-473a-bd32-4ec6bb03c48d",
@@ -1047,7 +1036,7 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -2080,
+        -2096,
         -1888
       ],
       "id": "910f5e13-14ec-4e21-82d0-73cb4173a7b9",
@@ -1070,7 +1059,7 @@
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1.3,
       "position": [
-        -1856,
+        -1872,
         -1888
       ],
       "id": "4341ea51-48d4-4cd6-88e7-b47efc8eefcf",
@@ -1091,7 +1080,7 @@
       "type": "n8n-nodes-base.markdown",
       "typeVersion": 1,
       "position": [
-        -1632,
+        -1648,
         -1888
       ],
       "id": "fb644dd2-7011-4fb3-8e37-eb0e00ce42c9",
@@ -1132,7 +1121,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1408,
+        -1424,
         -1888
       ],
       "id": "b4ead0c4-df40-4524-8800-2200fce5594d",
@@ -1155,13 +1144,13 @@
           "cachedResultName": "bot-channel",
           "cachedResultUrl": "https://discord.com/channels/1374588309317091429/1425106319165362246"
         },
-        "content": "=/create title:{{ $json.name }} description:{{ $json.description }} datetime:{{ $json.startTime }} duration:{{ $json.duration }} on_create_mentions:@Musical Team",
+        "content": "=```\n/create title:{{ $json.name }} description:{{ $json.description }} datetime:{{ $json.startTime }} duration:{{ $json.duration }} on_create_mentions:@Musical Team\n```",
         "options": {}
       },
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        -1184,
+        -1200,
         -1696
       ],
       "id": "961710b7-6a76-42d2-a10b-ecd8d54eaadc",
@@ -1197,7 +1186,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        -1184,
+        -1200,
         -1888
       ],
       "id": "d70138c9-df8d-498e-84c9-859eb4ca246b",
@@ -1218,7 +1207,7 @@
             {
               "id": "e04364d4-520b-43ed-b458-7f871de6b3ee",
               "name": "=body.userID",
-              "value": "=477525247806013440",
+              "value": "=696861453935968328",
               "type": "string"
             },
             {
@@ -1234,89 +1223,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -2080,
-        -480
+        -2096,
+        -1280
       ],
       "id": "2dec9987-20ae-442b-855d-9e8e947292cd",
       "name": "Manual User ID"
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "6098ca3a-3536-4653-9d49-b17b9f3a77d0",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
-      "position": [
-        -2080,
-        -288
-      ],
-      "id": "7d9c2933-1c39-40f1-ab2f-55368e892b6c",
-      "name": "Webhook for Slash",
-      "webhookId": "6098ca3a-3536-4653-9d49-b17b9f3a77d0"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "leftValue": "hours",
-                    "rightValue": "={{ $json.body.command }}",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    },
-                    "id": "f8261961-3f49-496d-913d-6b9975b84a10"
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 2
-                },
-                "conditions": [
-                  {
-                    "id": "dc78f557-6411-40a4-9726-67835c12d722",
-                    "leftValue": "ranking",
-                    "rightValue": "={{ $json.body.command }}",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.3,
-      "position": [
-        -1856,
-        -384
-      ],
-      "id": "7cea2286-9067-4dda-9dab-a2108ca9f9dc",
-      "name": "Check the Command Type"
     },
     {
       "parameters": {
@@ -1324,7 +1235,7 @@
           "__rl": true,
           "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
           "mode": "list",
-          "cachedResultName": "TECH AVENGERS SIGN UP",
+          "cachedResultName": "TECH AVENGERS EVENTS",
           "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit?usp=drivesdk"
         },
         "sheetName": {
@@ -1337,18 +1248,19 @@
         "filtersUI": {
           "values": [
             {
-              "lookupColumn": "id",
+              "lookupColumn": "Discord User ID (Obtain via n8n)",
               "lookupValue": "={{ $json.body.userID }}"
             }
           ]
         },
+        "combineFilters": "OR",
         "options": {}
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -1632,
-        -384
+        -1872,
+        -1184
       ],
       "id": "afe772d8-d271-47e7-845e-4572add6f81a",
       "name": "Get User Name",
@@ -1388,8 +1300,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -736,
-        -1088
+        -976,
+        -64
       ],
       "id": "f80e19ce-8b7a-4b55-b971-5331655d7ea2",
       "name": "Format Fields to something Nice"
@@ -1401,19 +1313,19 @@
             {
               "id": "2aa58a92-dc3e-42d0-9bd1-cf6fb5b2e97e",
               "name": "real_name",
-              "value": "={{ $json['What is your Full Name'] }}",
+              "value": "={{ $json['What is your Full Name?'] }}",
               "type": "string"
             },
             {
               "id": "8022ce3c-70c8-4c95-9d14-132318116771",
               "name": "discord_username",
-              "value": "={{ $json['What is your Discord Username'] }}",
+              "value": "={{ $json['What is your Discord Username?'] }}",
               "type": "string"
             },
             {
               "id": "c7db01c9-eb28-4a56-982c-0858248b5d65",
               "name": "id",
-              "value": "={{ $json.id }}",
+              "value": "={{ $json['Discord User ID (Obtain via n8n)'] }}",
               "type": "string"
             }
           ]
@@ -1423,81 +1335,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1408,
-        -384
+        -1648,
+        -1184
       ],
       "id": "ab593096-38e4-4f17-aa01-ce79db56c078",
       "name": "Format Fields to something Nice again"
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "1NhFkEgIiu2XBAZhh5f1RWt8j26H38rHWZUroabWDc24",
-          "mode": "list",
-          "cachedResultName": "Sesh Scraper RSVP",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NhFkEgIiu2XBAZhh5f1RWt8j26H38rHWZUroabWDc24/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Raw RSVP",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NhFkEgIiu2XBAZhh5f1RWt8j26H38rHWZUroabWDc24/edit#gid=0"
-        },
-        "filtersUI": {
-          "values": [
-            {
-              "lookupColumn": "Name",
-              "lookupValue": "={{ $json.real_name }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        -1184,
-        -384
-      ],
-      "id": "6aaf338f-9f4b-4c62-8fd9-5676d250eadc",
-      "name": "Get row(s) in sheet",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "n5DtDm71m0RITfm0",
-          "name": "BR Tech Account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "language": "python",
-        "pythonCode": "hour = 0\nmin = 5\nsec = 0\n\nfor item in _input.all():\n  time = item.json['Total Time'].split(\":\") \n  hour+=int(time[0])\n  min+=int(time[1])\n  sec+=int(time[2])\n\n# Format Sec to Mintue\nif sec > 59:\n  sec -= 60\n  min += 1\n# Add Leading 0\nif sec < 10:\n  sec = f\"0{str(sec)}\"\n# Format Min to Hour\nif min > 59:\n  min -= 60\n  hour += 1\n# Add Leading 0\nif min < 10:\n  min = f\"0{str(min)}\"\n# Add Leading 0\nif hour < 10:\n  hour = f\"0{str(hour)}\"\nreturn {'totalTime':f'{hour}:{min}:{sec}'}"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -960,
-        -384
-      ],
-      "id": "ecc138f1-b1a1-4c4d-92c0-55da7288bad5",
-      "name": "Code in Python (Beta)"
-    },
-    {
-      "parameters": {
-        "operation": "formatDate",
-        "date": "={{ \"10:50:20\".toDateTime() }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.dateTime",
-      "typeVersion": 2,
-      "position": [
-        -736,
-        -384
-      ],
-      "id": "fe94d529-f5c8-43f8-ab06-ce25c602c46c",
-      "name": "Date & Time"
     },
     {
       "parameters": {
@@ -1522,12 +1364,13 @@
           "cachedResultName": "EVENTS",
           "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit#gid=337938258"
         },
+        "event": "rowAdded",
         "options": {}
       },
       "type": "n8n-nodes-base.googleSheetsTrigger",
       "typeVersion": 1,
       "position": [
-        -1632,
+        -1648,
         -1552
       ],
       "id": "ff8a677a-2e4f-4dd7-8aab-9ac494ab0bbd",
@@ -1544,7 +1387,7 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        -1408,
+        -1424,
         -1552
       ],
       "id": "6a21b979-dc1b-4389-96dc-2fb447cfdcee",
@@ -1573,7 +1416,7 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        -1184,
+        -1200,
         -1504
       ],
       "id": "aecb2b97-9a1c-4f81-8651-39bdc92f8f37",
@@ -1585,6 +1428,375 @@
           "name": "Sesh Scraper"
         }
       }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
+          "mode": "list",
+          "cachedResultName": "TECH AVENGERS SIGN UP",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1821597503,
+          "mode": "list",
+          "cachedResultName": "Ranking Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit#gid=1821597503"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Name",
+              "lookupValue": "={{ $json.real_name }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1424,
+        -1184
+      ],
+      "id": "d615a7ce-e830-478b-9cd3-aa7f9109a55a",
+      "name": "Get User Hour Info",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n5DtDm71m0RITfm0",
+          "name": "BR Tech Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "techcrew/command/hours",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -2096,
+        -1088
+      ],
+      "id": "7d9c2933-1c39-40f1-ab2f-55368e892b6c",
+      "name": "Webhook for Hour Command",
+      "webhookId": "6098ca3a-3536-4653-9d49-b17b9f3a77d0"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"name\": \"{{ $json.Name }}\",\n  \"overall\": {\n    \"hours\": \"{{ $json['Total Hours'] }}\",\n    \"rank\": {{ $json.Rank }}\n  },\n  \"yearly\": {\n    \"hours\": \"{{ $json['Total Hours (This Year)'] }}\",\n    \"rank\": {{ $json['Rank (This Year)'] }}\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        -1200,
+        -1184
+      ],
+      "id": "02bb28b5-da36-4883-bd63-43e075bb89a3",
+      "name": "Respond to Hour Command"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        -752,
+        -672
+      ],
+      "id": "877ac2ca-e55f-458c-b086-88e527bb9d93",
+      "name": "Respond to Rank"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "techcrew/command/rankings",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -2096,
+        -672
+      ],
+      "id": "92a44d89-4131-49ad-9859-7bc9f9c25864",
+      "name": "Webhook for Rankings",
+      "webhookId": "6098ca3a-3536-4653-9d49-b17b9f3a77d0"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "rank"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        -976,
+        -672
+      ],
+      "id": "f3ac477c-d394-4398-b9be-23c8bf174733",
+      "name": "Sort"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3a7fb383-9b4c-4bf6-9e95-63d438d2e7ec",
+              "name": "name",
+              "value": "={{ $json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "feb783cc-d891-4df9-b822-8f1f9ea9f917",
+              "name": "hours",
+              "value": "={{ $json['Total Hours'] }}",
+              "type": "string"
+            },
+            {
+              "id": "1ee0fff4-1944-4670-9b8d-6c0a6d706741",
+              "name": "rank",
+              "value": "={{ $json.Rank }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1424,
+        -672
+      ],
+      "id": "10956680-7f6f-4bbe-bdb5-196c033de602",
+      "name": "Rename Overall"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
+          "mode": "list",
+          "cachedResultName": "TECH AVENGERS SIGN UP",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1821597503,
+          "mode": "list",
+          "cachedResultName": "Ranking Sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit#gid=1821597503"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1872,
+        -576
+      ],
+      "id": "39b4dc08-b84f-4d8f-a077-2e0a84809f96",
+      "name": "Get Rank Info",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n5DtDm71m0RITfm0",
+          "name": "BR Tech Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook for Rankings').item.json.body.type }}",
+                    "rightValue": "=Overall",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "4e3cd039-fd71-48de-9357-ee0b4f60f146"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a45318e0-029a-445a-8d8c-e6113d4a1a99",
+                    "leftValue": "={{ $('Webhook for Rankings').item.json.body.type }}",
+                    "rightValue": "Yearly",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -1648,
+        -576
+      ],
+      "id": "4dcc23aa-d169-4911-bc88-fc8876238d5b",
+      "name": "Event Type"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3a7fb383-9b4c-4bf6-9e95-63d438d2e7ec",
+              "name": "name",
+              "value": "={{ $json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "feb783cc-d891-4df9-b822-8f1f9ea9f917",
+              "name": "hours",
+              "value": "={{ $json['Total Hours (This Year)'] }}",
+              "type": "string"
+            },
+            {
+              "id": "e3e92140-c557-425d-88ed-606496c0a0e4",
+              "name": "rank",
+              "value": "={{ $json['Rank (This Year)'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1424,
+        -480
+      ],
+      "id": "243c5ce5-8c4f-4b97-86bb-3ec7d6ee1519",
+      "name": "Rename Yearly"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
+          "mode": "list",
+          "cachedResultName": "TECH AVENGERS EVENTS",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2019391119,
+          "mode": "list",
+          "cachedResultName": "Member List",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit#gid=2019391119"
+        },
+        "combineFilters": "OR",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1648,
+        -864
+      ],
+      "id": "fe272282-65d9-41ab-9a78-d8cf8e42a399",
+      "name": "Get User List",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n5DtDm71m0RITfm0",
+          "name": "BR Tech Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "fieldsToMatchString": "name",
+        "options": {
+          "multipleMatches": "all"
+        }
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -1200,
+        -672
+      ],
+      "id": "d3b7302f-127e-4550-95d2-694516391567",
+      "name": "Merge info"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2740c28f-59a2-4612-95ea-c2fcf431fd4f",
+              "name": "name",
+              "value": "={{ $json['What is your Full Name?'] }}",
+              "type": "string"
+            },
+            {
+              "id": "a0aa1fb8-13b9-4c2a-9e05-168447cb465b",
+              "name": "id",
+              "value": "={{ $json['Discord User ID (Obtain via n8n)'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1424,
+        -864
+      ],
+      "id": "34d073a0-614f-42c5-8a7c-ddf2c936fc1c",
+      "name": "Filter and Rename Fields"
     }
   ],
   "pinData": {},
@@ -1897,17 +2109,6 @@
         ]
       ]
     },
-    "Manual Start": {
-      "main": [
-        [
-          {
-            "node": "Manual ID",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Manual ID": {
       "main": [
         [
@@ -2010,34 +2211,11 @@
       "main": [
         [
           {
-            "node": "Check the Command Type",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Webhook for Slash": {
-      "main": [
-        [
-          {
-            "node": "Check the Command Type",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check the Command Type": {
-      "main": [
-        [
-          {
             "node": "Get User Name",
             "type": "main",
             "index": 0
           }
-        ],
-        []
+        ]
       ]
     },
     "Format Fields to something Nice": {
@@ -2066,29 +2244,7 @@
       "main": [
         [
           {
-            "node": "Get row(s) in sheet",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get row(s) in sheet": {
-      "main": [
-        [
-          {
-            "node": "Code in Python (Beta)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code in Python (Beta)": {
-      "main": [
-        [
-          {
-            "node": "Date & Time",
+            "node": "Get User Hour Info",
             "type": "main",
             "index": 0
           }
@@ -2121,6 +2277,139 @@
           }
         ]
       ]
+    },
+    "Get User Hour Info": {
+      "main": [
+        [
+          {
+            "node": "Respond to Hour Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook for Hour Command": {
+      "main": [
+        [
+          {
+            "node": "Get User Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook for Rankings": {
+      "main": [
+        [
+          {
+            "node": "Get Rank Info",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get User List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort": {
+      "main": [
+        [
+          {
+            "node": "Respond to Rank",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rename Overall": {
+      "main": [
+        [
+          {
+            "node": "Merge info",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get Rank Info": {
+      "main": [
+        [
+          {
+            "node": "Event Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Event Type": {
+      "main": [
+        [
+          {
+            "node": "Rename Overall",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Rename Yearly",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rename Yearly": {
+      "main": [
+        [
+          {
+            "node": "Merge info",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get User List": {
+      "main": [
+        [
+          {
+            "node": "Filter and Rename Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge info": {
+      "main": [
+        [
+          {
+            "node": "Sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter and Rename Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -2129,7 +2418,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "errorWorkflow": "h9Vs1YeoqTovMXqd"
   },
-  "versionId": "8d3f1c69-3970-43a2-aab8-f7e474623c44",
+  "versionId": "728c58ff-e7dc-4273-bd01-6a45dbcb95cb",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "14421c7bbd88cd20f35e905f1bcd6cdf0c217cad23ef5234c74aad36bbb25ad5"
