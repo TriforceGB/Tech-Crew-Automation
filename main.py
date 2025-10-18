@@ -107,7 +107,7 @@ async def rankings(
     ):
     logger.info("Grabing Rankings for: "+ctx.user.name)
     await ctx.defer(ephemeral=private)
-    response = requests.post(f'{WEBHOOKTEST}/command/rankings', json={"type": type}) # Gets the Data from n8n
+    response = requests.post(f'{WEBHOOK}/command/rankings', json={"type": type}) # Gets the Data from n8n
     if response.ok:
         logger.info("Able to receive ranking from n8n")
         data = response.json()
