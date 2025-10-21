@@ -45,7 +45,7 @@ async def on_message(message):
 
     # Only Check messages from Sesh
     if message.author.id == SeshID and message.channel.id == ChannelID:
-        logger.info("Starting to Scrape Event: "+message.id)
+        logger.info("Starting to Scrape Event: "+str(message.id))
         # Tactically speaking I could Skip a Node in n8n if I just Pass the Data but IDC
         response =requests.post(f'{WEBHOOK}/scrape', json={'msgID': str(message.id)})
 
