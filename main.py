@@ -10,7 +10,7 @@ import logging
 _ = load_dotenv()
 TOKEN = getenv('DISCORD_TOKEN')
 WEBHOOK = getenv('WEBHOOK')
-WEBHOOKTEST = getenv('WEBHOOKTEST')
+WEBHOOKTEST = getenv('WEBHOOKTEST') # Used only for Testing
 
 # Logging
 logger = logging.getLogger()
@@ -59,6 +59,8 @@ async def help(
     private: discord.Option(bool, "Only Display to You", default=False) # type: ignore
     ):
     logger.info("Sending Help to: "+ctx.user.name)
+
+    #Create Discord Embed
     embed = discord.Embed(
         title="Tech Crew Help",
         description="This is a List of Commands all Tech Crew Needs",
@@ -70,6 +72,7 @@ async def help(
     embed.set_thumbnail(url=ctx.guild.icon.url)
     await ctx.respond(embed=embed, ephemeral=private)
 
+# Get A Users Hours
 @bot.slash_command(name="hours", description="Get Total Tech Crew Hours")
 async def hours(
     ctx: discord.ApplicationContext,
@@ -81,8 +84,8 @@ async def hours(
     if response.ok:
         logger.info("Able to receive hours from n8n")
         data = response.json()
-        # format the Data into an Embed
 
+        # format the Data into an Embed
         embed = discord.Embed(
             title=f"🕑 {data['name']}'s Hours",
             color=discord.Colour.fuchsia(), # default color from PyCord
@@ -98,8 +101,11 @@ async def hours(
         logger.error(f"Failed to get hours for {ctx.user.name}. Status Code: {response.status_code}")
         await ctx.respond(f"There was an error getting your hours, status code: {response.status_code}", ephemeral=private)
 
+
+# Get The Server's Rankings
 @bot.slash_command(name="rankings", description="Get Top Tech Crew Members")
 async def rankings(
+    # Getting the information from the command
     ctx: discord.ApplicationContext,
     type: discord.Option(str, "Type of Ranking", choices=["Overall", "Yearly"]),
     full: discord.Option(bool, "Show Full Rankings", default=False),
@@ -112,10 +118,14 @@ async def rankings(
         logger.info("Able to receive ranking from n8n")
         data = response.json()
         rankingtext: str = ""
+
+        # Checks if it should shows the full rankings
         if full:
-            rankingtext += "\n".join([f"{i+1}. <@{member['id']}> - {member['hours']}" for i, member in enumerate(data)])
+            rankingtext += "\n".join([f"{member['rank']}. <@{member['id']}> - {member['hours']}" for i, member in enumerate(data)])
         else:
-            rankingtext += "\n".join([f"{i+1}. <@{member['id']}> - {member['hours']}" for i, member in enumerate(data)][:5])
+            rankingtext += "\n".join([f"{member['rank']}. <@{member['id']}> - {member['hours']}" for i, member in enumerate(data)][:5])
+
+        #Create the Discord Embed
         embed = discord.Embed(
             title="Tech Crew Rankings",
             description="Top Tech Crew Members",
@@ -124,6 +134,7 @@ async def rankings(
         embed.add_field(name=f"{type} Rankings", value=rankingtext, inline=False)
         embed.set_thumbnail(url=ctx.guild.icon.url)
         await ctx.respond(embed=embed,ephemeral=private)
+
     else:
         logger.error(f"Failed to get rankings for Tech Crew. Status Code: {response.status_code}")
         await ctx.respond(f"There was an error getting the rankings, status code: {response.status_code}", ephemeral=private)
