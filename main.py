@@ -132,10 +132,11 @@ async def rankings(
 
         # Checks if it should shows the full rankings
         if full:
-            rankingtext += "\n".join([f"{member['rank']}. <@{member['id']}> - {member['hours']}" for i, member in enumerate(data)])
+            rankingtext += "\n".join([f"{int(member['rank'])}\\. <@{member['id']}> - {member['hours']}" for member in data])
         else:
-            rankingtext += "\n".join([f"{member['rank']}. <@{member['id']}> - {member['hours']}" for i, member in enumerate(data)][:5])
+            rankingtext += "\n".join([f"{int(member['rank'])}\\. <@{member['id']}> - {member['hours']}" for member in data][:5])
 
+        print(rankingtext)
         #Create the Discord Embed
         embed = discord.Embed(
             title="Tech Crew Rankings",
