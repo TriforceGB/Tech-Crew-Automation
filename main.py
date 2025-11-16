@@ -4,7 +4,6 @@ from os import getenv
 from dotenv import load_dotenv
 import requests
 import logging
-import asyncio
 
 # Variables
 _ = load_dotenv()
