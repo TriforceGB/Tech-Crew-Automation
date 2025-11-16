@@ -4,13 +4,12 @@ from os import getenv
 from dotenv import load_dotenv
 import requests
 import logging
-
+import asyncio
 
 # Variables
 _ = load_dotenv()
 TOKEN = getenv('DISCORD_TOKEN')
 WEBHOOK = getenv('WEBHOOK')
-WEBHOOKTEST = getenv('WEBHOOKTEST')
 
 # Logging
 logger = logging.getLogger()
@@ -30,7 +29,8 @@ console_log.setFormatter(log_format)
 logger.addHandler(console_log)
 
 SeshID = 616754792965865495 # Sesh ID
-ChannelID = 1425106319165362246 # Bot Channel
+Bot_Channel = 1425106319165362246 # Bot Channel
+Event_Channel = 1425628143481393272 # Event Channel
 
 bot = discord.Bot()
 
@@ -42,12 +42,23 @@ async def on_ready():
 # Scraping new Messaging
 @bot.event
 async def on_message(message):
+    # For New Events
+    if message.author.id == SeshID and message.channel.id == Event_Channel:
+        id: str = str(message.id)
+        logger.info("New Event Detected: "+id)
+        logger.info("Sending to Webhook")
+        response = requests.post(f'{WEBHOOK}/event/new', json={'id': id})
 
-    # Only Check messages from Sesh
-    if message.author.id == SeshID and message.channel.id == ChannelID:
-        logger.info("Starting to Scrape Event: "+str(message.id))
-        # Tactically speaking I could Skip a Node in n8n if I just Pass the Data but IDC
-        response =requests.post(f'{WEBHOOK}/scrape', json={'msgID': str(message.id)})
+        #logging
+        if response.status_code != 200:
+            logger.error(f"Failed to scrape message: {message.id}. Status Code: {response.status_code}")
+            
+    # For Warning and Starting Events
+    if message.author.id == SeshID and message.channel.id == Bot_Channel:
+        id: str = str(message.id)
+        logger.info("Warning Event Detected: "+id)
+        logger.info("Sending to Webhook")
+        response = requests.post(f'{WEBHOOK}/event/update', json={'id': id})
 
         #logging
         if response.status_code != 200:
