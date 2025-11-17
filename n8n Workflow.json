@@ -1,6 +1,418 @@
 {
-  "name": "Tech Crew Workflow",
+  "name": "Tech Crew Workflow 1.2",
   "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -3056,
+        -2336
+      ],
+      "id": "901521e5-4b51-44d6-85dd-3a61ff20cd3e",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1374588309317091429",
+          "mode": "list",
+          "cachedResultName": "BR Tech Crew"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1425106319165362246",
+          "mode": "list",
+          "cachedResultName": "bot-channel"
+        },
+        "content": "An error has occurred, go check n8n logs\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -2832,
+        -2336
+      ],
+      "id": "5c6a9172-9354-4b56-bd8c-2800c830e747",
+      "name": "Error Message",
+      "webhookId": "202f08c3-8cbc-4bb8-bb62-296aa79f4ce8",
+      "credentials": {
+        "discordBotApi": {
+          "id": "lxmu4MZqGPxvdKGx",
+          "name": "Sesh Scraper"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -3056,
+        -2112
+      ],
+      "id": "48f4c7a1-79d6-4b16-a07d-78c233c100d2",
+      "name": "Monday Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "4f5fde8102282db0db652d5f61ba385a19db3341bef025baa96d50367546502c@group.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "Grease Musical Schedule"
+        },
+        "returnAll": true,
+        "timeMin": "={{ $today }}",
+        "timeMax": "={{ $today.plus({ week: 1 }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        -2832,
+        -2112
+      ],
+      "id": "950e23ed-14b2-426d-aa89-2f7d4aa8e597",
+      "name": "Get many events",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "dvlwXOIUrXBkE5Zb",
+          "name": "Main Google Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "html": "={{ $json.description }}",
+        "destinationKey": "description-markdown",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.markdown",
+      "typeVersion": 1,
+      "position": [
+        -2608,
+        -2112
+      ],
+      "id": "b8a3fc45-546c-4b6c-b029-dc5b3e7874dd",
+      "name": "Markdown"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a71a9845-8769-489c-83f9-870061a8115f",
+              "name": "name",
+              "value": "={{ $json.summary }}",
+              "type": "string"
+            },
+            {
+              "id": "b62ff5dd-68ea-4de5-a305-d9889e4cf400",
+              "name": "description",
+              "value": "={{ $json['description-markdown'] }}",
+              "type": "string"
+            },
+            {
+              "id": "5608721c-33fc-4ec9-987e-550d6b346671",
+              "name": "startTime",
+              "value": "={{ $json.start.dateTime }}",
+              "type": "string"
+            },
+            {
+              "id": "a6aa6a2b-fef9-4d1a-8ea9-94d241e3686b",
+              "name": "=duration",
+              "value": "={{ $json.end.dateTime.toDateTime().format('HH') - $json.start.dateTime.toDateTime().format('HH') }} h {{ $json.end.dateTime.toDateTime().format('mm')-$json.start.dateTime.toDateTime().format('mm') }} m",
+              "type": "string"
+            },
+            {
+              "id": "7d2073b4-07a7-4ca0-bd89-b99df82262ab",
+              "name": "url",
+              "value": "https://docs.google.com/document/d/1CP6bSJ6qxl60pnh4fp-t30bWnR7JUmCuYKAH0i5By0I/edit?tab=t.0",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2384,
+        -2112
+      ],
+      "id": "f2f7817b-a249-41a7-b5b5-fe3c45c7a564",
+      "name": "Grabing n8n"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1374588309317091429",
+          "mode": "list",
+          "cachedResultName": "BR Tech Crew"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1425106319165362246",
+          "mode": "list",
+          "cachedResultName": "bot-channel"
+        },
+        "content": "=```\n/create title:{{ $json.name }} description:{{ $json.description }} datetime:{{ $json.startTime }} duration:{{ $json.duration }} on_create_mentions: @Music\n```",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -1936,
+        -1920
+      ],
+      "id": "c7fddeca-3e22-4faa-b723-c9f08b0c4558",
+      "name": "Send Musical Event Creation Msg",
+      "webhookId": "4ee9c254-524f-487a-bb76-f70bdbc551d2",
+      "credentials": {
+        "discordBotApi": {
+          "id": "lxmu4MZqGPxvdKGx",
+          "name": "Sesh Scraper"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1374588309317091429",
+          "mode": "list",
+          "cachedResultName": "BR Tech Crew"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1425106319165362246",
+          "mode": "list",
+          "cachedResultName": "bot-channel"
+        },
+        "content": "=# New Event Commands:\n{{ $json.URL }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -1936,
+        -2112
+      ],
+      "id": "cdb1e6c3-f750-433d-bc64-fc4aaa73180d",
+      "name": "Start Msg",
+      "webhookId": "e8b82b99-b3dd-494d-af02-0b5dfbc5e104",
+      "executeOnce": true,
+      "credentials": {
+        "discordBotApi": {
+          "id": "lxmu4MZqGPxvdKGx",
+          "name": "Sesh Scraper"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
+          "mode": "list",
+          "cachedResultName": "TECH AVENGERS SIGN UP"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 337938258,
+          "mode": "list",
+          "cachedResultName": "EVENTS"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2384,
+        -1776
+      ],
+      "id": "394ed9ca-db47-4709-896d-b4363d4a5791",
+      "name": "Check if New Event Has been Added",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "uGEEamx2dA8Niivx",
+          "name": "BR Tech Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "startTime"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        -2160,
+        -2112
+      ],
+      "id": "bf55080e-26f7-4c16-bf56-b54650d171f7",
+      "name": "Sort Start Time"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1374588309317091429",
+          "mode": "list",
+          "cachedResultName": "BR Tech Crew"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1425106319165362246",
+          "mode": "list",
+          "cachedResultName": "bot-channel"
+        },
+        "content": "=We Got info from the Event Sheet\nName: {{ $json.name }}\ndate: {{ $json.date }}\nday-before?: {{ $json['day-before'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -1936,
+        -1728
+      ],
+      "id": "4b030aaf-df6d-441a-bd44-63f45982695f",
+      "name": "New Event Message",
+      "webhookId": "01e0c51d-14c8-4307-8c07-bc07a3d377f7",
+      "executeOnce": true,
+      "credentials": {
+        "discordBotApi": {
+          "id": "lxmu4MZqGPxvdKGx",
+          "name": "Sesh Scraper"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cf4c3097-0ab2-4f0b-bbd8-4532042956fe",
+              "name": "url",
+              "value": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit?usp=sharing",
+              "type": "string"
+            },
+            {
+              "id": "a5dc1278-ab80-465f-a057-e3ce14e4c83c",
+              "name": "name",
+              "value": "={{ $json['Event Name/Description'] }}",
+              "type": "string"
+            },
+            {
+              "id": "284a2db1-2494-42de-8800-5a9e4cacb761",
+              "name": "date",
+              "value": "={{ $json['Event Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "95f387f4-9a55-49ba-a3cd-f83bd0c92838",
+              "name": "day-before",
+              "value": "={{ $json['Do you need it set up the day before?'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2160,
+        -1776
+      ],
+      "id": "148530f9-61c3-4fa0-bc25-beb7286e9ed1",
+      "name": "Edit Event Info"
+    },
+    {
+      "parameters": {
+        "content": "## Webhook json Data\n```json\n{\n   id: \"Msg ID of the Event\",\n}\n```\n",
+        "width": 448
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3536,
+        -1536
+      ],
+      "typeVersion": 1,
+      "id": "be5f7da8-0e13-4dcf-9ab1-d2ac233e7c11",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "techcrew/event/new",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -3056,
+        -1504
+      ],
+      "id": "b74271cf-aded-431d-93b8-6c2b336ad4fe",
+      "name": "New Event",
+      "webhookId": "a3d247bb-bd8b-4b7a-b8bf-74229bbea168"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -3056,
+        -384
+      ],
+      "id": "ee21ecfd-448d-4181-b253-0df93d2ad098",
+      "name": "Hourly Check"
+    },
     {
       "parameters": {
         "resource": "member",
@@ -8,8 +420,7 @@
           "__rl": true,
           "value": "1374588309317091429",
           "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
+          "cachedResultName": "BR Tech Crew"
         },
         "returnAll": true,
         "options": {}
@@ -17,490 +428,18 @@
       "type": "n8n-nodes-base.discord",
       "typeVersion": 2,
       "position": [
-        -976,
-        -256
+        -2832,
+        -672
       ],
-      "id": "d3ebda3a-e046-448e-94cc-8b2410dc207e",
+      "id": "e5513876-6965-40a2-9b63-d0ede3093389",
       "name": "Get User(s) Info",
-      "webhookId": "316b8890-9c0e-4f7d-a934-39804621f10c",
+      "webhookId": "25e3ed13-13ec-45e8-bc08-6cc7c6c8a147",
       "credentials": {
         "discordBotApi": {
           "id": "lxmu4MZqGPxvdKGx",
           "name": "Sesh Scraper"
         }
       }
-    },
-    {
-      "parameters": {
-        "language": "python",
-        "pythonCode": "RSVP_List: list = []  # start with an empty list\n\n# get the list of RSVP IDs once\nRSVP_ID = _('Strips RSVP and Length - T').first().json.user_ids\nprint(RSVP_ID)\n\nfor user in _('Merge Discord and Real Data').first().json.user:\n  if user.id in RSVP_ID:\n    RSVP_List.append(user)\n\nreturn {\"RSVP\": RSVP_List}\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        144,
-        32
-      ],
-      "id": "8e03cd67-643e-451d-ab03-70892f04f7d7",
-      "name": "Get List of RSVP Users",
-      "executeOnce": false
-    },
-    {
-      "parameters": {
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "1374588309317091429",
-          "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1425106319165362246",
-          "mode": "list",
-          "cachedResultName": "bot-channel",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429/1425106319165362246"
-        },
-        "content": "=RSVP LIST:",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        368,
-        -64
-      ],
-      "id": "01c00b35-f35f-43f8-a5f4-22225782aea9",
-      "name": "Start Message",
-      "webhookId": "55fc674b-e159-4528-8bd0-3464278a958d",
-      "executeOnce": true,
-      "credentials": {
-        "discordBotApi": {
-          "id": "lxmu4MZqGPxvdKGx",
-          "name": "Sesh Scraper"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "1374588309317091429",
-          "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1425106319165362246",
-          "mode": "list",
-          "cachedResultName": "bot-channel",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429/1425106319165362246"
-        },
-        "content": "={{ $json.msg }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        816,
-        -64
-      ],
-      "id": "801ea96d-4887-4614-a7ee-b078004082f5",
-      "name": "RSVP People",
-      "webhookId": "b729bf2d-7174-40ec-8ce8-6047b5a36417",
-      "credentials": {
-        "discordBotApi": {
-          "id": "lxmu4MZqGPxvdKGx",
-          "name": "Sesh Scraper"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "message",
-        "operation": "get",
-        "guildId": {
-          "__rl": true,
-          "value": "1374588309317091429",
-          "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1425106319165362246",
-          "mode": "list",
-          "cachedResultName": "bot-channel",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429/1425106319165362246"
-        },
-        "messageId": "={{ $json.body.msgID }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        -1872,
-        224
-      ],
-      "id": "8a97946e-14c6-4e51-b2e4-915f7be9bd71",
-      "name": "Get Newest Event",
-      "webhookId": "a6fee96f-8e7b-4849-b00f-b705f3a000fa",
-      "credentials": {
-        "discordBotApi": {
-          "id": "lxmu4MZqGPxvdKGx",
-          "name": "Sesh Scraper"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "mode": "chooseBranch",
-        "output": "empty"
-      },
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
-      "position": [
-        -80,
-        32
-      ],
-      "id": "1cb45fb4-12b3-4a2e-a6d4-4de172505747",
-      "name": "Merge Discord Data"
-    },
-    {
-      "parameters": {
-        "language": "python",
-        "pythonCode": "user : list = []\nfor discord_user in _('Aggregate Discord User Data').first().json.discord_user:\n  for real_user in _('Aggregate Real User Data').first().json.real_user_data:\n    if discord_user.id == real_user.id:\n      user.append({\n        \"name\": real_user.real_name,\n        \"username\": discord_user.username,\n        \"id\": discord_user.id,\n      })\n      break\nreturn {\"user\": user}"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -304,
-        -64
-      ],
-      "id": "6ccbdd7c-5cb6-4281-ae8e-5e24d37715a2",
-      "name": "Merge Discord and Real Data"
-    },
-    {
-      "parameters": {
-        "mode": "chooseBranch",
-        "output": "empty"
-      },
-      "type": "n8n-nodes-base.merge",
-      "typeVersion": 3.2,
-      "position": [
-        -528,
-        -64
-      ],
-      "id": "37d5a048-71bc-4dec-b9e1-d1497df56153",
-      "name": "Merge"
-    },
-    {
-      "parameters": {
-        "language": "python",
-        "pythonCode": "# Loop over input items and add a new field called 'myNewField' to the JSON of each one\nmsg : str = \"\"\nif len(_('Get List of RSVP Users').first().json.RSVP) == 0 :\n  return {\"msg\": \"No one RSVP for this event\"}\nfor user in _('Get List of RSVP Users').first().json.RSVP:\n  msg += user.name+\"\\n\"\nreturn {\"msg\": msg}"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        592,
-        -64
-      ],
-      "id": "313a1564-c049-49ec-91f4-ccb6e006d80e",
-      "name": "Format to a list of Names"
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
-          "mode": "list",
-          "cachedResultName": "TECH AVENGERS SIGN UP",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 2019391119,
-          "mode": "list",
-          "cachedResultName": "Member List",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit#gid=2019391119"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        -1200,
-        -64
-      ],
-      "id": "70a919cb-8813-4426-b4c8-7a4b62d8821a",
-      "name": "Get List of Real Name for Discord Accounts",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "n5DtDm71m0RITfm0",
-          "name": "BR Tech Account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
-          "mode": "list",
-          "cachedResultName": "TECH AVENGERS SIGN UP",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 2086431696,
-          "mode": "list",
-          "cachedResultName": "Raw Sign-Up Data",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit#gid=2086431696"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Event": "={{ $('Get Newest Event').item.json.embeds[0].title }}",
-            "Start Time": "={{ $('Get Newest Event').item.json.embeds[0].description.split('\\n')[1].substring(3,13).toDateTime('s').format('TT') }}",
-            "Name": "={{ $json.name }}",
-            "Date": "={{ $('Get Newest Event').item.json.embeds[0].description.split('\\n')[1].substring(3,13).toDateTime('s').format('yyyy-MM-dd') }}",
-            "End Time": "={{ $('Get Newest Event').item.json.embeds[0].description.split('\\n')[1].substring(3,13).toDateTime('s').plus($('Strips RSVP and Length - T').item.json.duration.hours, 'hour').plus($('Strips RSVP and Length - T').item.json.duration.minutes, 'minute').format('TT') }}",
-            "Total Time": "={{ $('Strips RSVP and Length - T').item.json.duration.hours }}:{{ $('Strips RSVP and Length - T').item.json.duration.minutes }}",
-            "No Show": "FALSE"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "Name",
-              "displayName": "Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Event",
-              "displayName": "Event",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Date",
-              "displayName": "Date",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Start Time",
-              "displayName": "Start Time",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "End Time",
-              "displayName": "End Time",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Total Time",
-              "displayName": "Total Time",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "No Show",
-              "displayName": "No Show",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        592,
-        128
-      ],
-      "id": "464be502-dc51-41d4-ab02-ddde615f5052",
-      "name": "Send Sign out List",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "n5DtDm71m0RITfm0",
-          "name": "BR Tech Account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "1374588309317091429",
-          "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1425106319165362246",
-          "mode": "list",
-          "cachedResultName": "bot-channel",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429/1425106319165362246"
-        },
-        "content": "=Starting to Scrap List for {{ $json.embeds[0].title }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        -1424,
-        -64
-      ],
-      "id": "b0e5de90-76e3-45d6-9859-27a19250c5d5",
-      "name": "Send a Confirm Flow Start Msg for RSVP",
-      "webhookId": "7aa3d189-2144-4152-856c-77fe821aece2",
-      "credentials": {
-        "discordBotApi": {
-          "id": "lxmu4MZqGPxvdKGx",
-          "name": "Sesh Scraper"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "member",
-        "operation": "roleAdd",
-        "guildId": {
-          "__rl": true,
-          "value": "1374588309317091429",
-          "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
-        },
-        "userId": {
-          "__rl": true,
-          "value": "={{ $json.id }}",
-          "mode": "id"
-        },
-        "role": [
-          "1425487853537726624"
-        ]
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        592,
-        -256
-      ],
-      "id": "fa7ad6ae-8d61-4119-bf12-00b97d62c5c5",
-      "name": "Add a role to a member",
-      "webhookId": "ea2f1639-c8cb-4f23-8d7e-faf1044a1de5",
-      "credentials": {
-        "discordBotApi": {
-          "id": "lxmu4MZqGPxvdKGx",
-          "name": "Sesh Scraper"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "1374588309317091429",
-          "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1425106319165362246",
-          "mode": "list",
-          "cachedResultName": "bot-channel",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429/1425106319165362246"
-        },
-        "content": "RSVP List Uploaded to Google Sheets",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        816,
-        128
-      ],
-      "id": "f4cb2b62-01a5-4f56-877b-8918bd5383f9",
-      "name": "Send a message",
-      "webhookId": "0d154e00-089b-497c-9ffb-92432c9be14f",
-      "executeOnce": true,
-      "credentials": {
-        "discordBotApi": {
-          "id": "lxmu4MZqGPxvdKGx",
-          "name": "Sesh Scraper"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "RSVP",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [
-        368,
-        -256
-      ],
-      "id": "940a7932-3627-4627-ad81-1aaa2bcd3593",
-      "name": "Split Out for ID"
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "RSVP",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [
-        368,
-        128
-      ],
-      "id": "37edd299-13a9-40d8-9d80-ee080e4f14df",
-      "name": "Split Out for Names"
     },
     {
       "parameters": {
@@ -509,15 +448,13 @@
           "__rl": true,
           "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
           "mode": "list",
-          "cachedResultName": "TECH AVENGERS SIGN UP",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit?usp=drivesdk"
+          "cachedResultName": "TECH AVENGERS SIGN UP"
         },
         "sheetName": {
           "__rl": true,
           "value": 2019391119,
           "mode": "list",
-          "cachedResultName": "Member List",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit#gid=2019391119"
+          "cachedResultName": "Member List"
         },
         "columns": {
           "mappingMode": "defineBelow",
@@ -589,11 +526,378 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -1648,
-        -2112
+        -2608,
+        -672
       ],
-      "id": "ae626649-a64c-48d7-b7f6-197699b4b3ad",
-      "name": "Update row in sheet",
+      "id": "f42e1c81-9227-4827-9d2c-06305ec9450f",
+      "name": "Update Discord ID",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n5DtDm71m0RITfm0",
+          "name": "BR Tech Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
+          "mode": "list",
+          "cachedResultName": "TECH AVENGERS EVENTS"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 327148464,
+          "mode": "list",
+          "cachedResultName": "Raw Running Events"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.embeds[0].title.split('**')[1] }}",
+            "ID": "={{ $json.id }}",
+            "Start Date": "={{ $json.embeds[0].fields[0].value.split(\":\")[1].toDateTime('s').format('yyyy-MM-dd') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Start Date",
+              "displayName": "Start Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "RSVP",
+              "displayName": "RSVP",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2608,
+        -1504
+      ],
+      "id": "6c8c9dd6-9725-4287-9e2a-235a7f246f51",
+      "name": "Add New Event to Running Events",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n5DtDm71m0RITfm0",
+          "name": "BR Tech Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "get",
+        "guildId": {
+          "__rl": true,
+          "value": "1374588309317091429",
+          "mode": "list",
+          "cachedResultName": "BR Tech Crew"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1425628143481393272",
+          "mode": "list",
+          "cachedResultName": "event-sign-up"
+        },
+        "messageId": "={{ $json.ID }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -2608,
+        -288
+      ],
+      "id": "c18867e8-330e-410d-b683-4e6c63149738",
+      "name": "Get a Event Message(s)",
+      "webhookId": "5fe4d912-fdec-4931-b663-6277c3b28bf2",
+      "credentials": {
+        "discordBotApi": {
+          "id": "lxmu4MZqGPxvdKGx",
+          "name": "Sesh Scraper"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "output : list = []  # start with an empty list\nfor item in _input.all():\n  # Dealing With User ID\n  user_ids : list = [] # used to store IDs \n  userIDs = item.json['raw-rsvp']\n  garbage_char = [\"<\",\">\",\"@\",\" \"]\n  for char in garbage_char:\n    userIDs = userIDs.replace(char,\"\")\n  for ID in userIDs.split(\"\\n\"):\n    user_ids.append(ID)\n  \n  # Step 1 Separate Hours and Minutes\n  rawDuration = item.json['raw-duration'].split(\" \")\n  if len(rawDuration) > 2:\n    rawDuration.pop(3)\n    rawDuration.pop(1)\n  else:\n    if(rawDuration[1] == \"hour\" or rawDuration[1] == \"hours\"):\n      rawDuration.append('00')\n      rawDuration.pop(1)\n    else: \n      rawDuration.insert(0, '00')\n      rawDuration.pop(2)\n  # Formating into Output  \n  output.append({\n    \"name\": item.json['name'],\n    \"user_ids\": user_ids,\n    \"duration\": {\n      \"hours\": str(rawDuration[0]),\n      \"minutes\": str(rawDuration[1])\n    },\n    \"date\": item.json['date'],\n    \"start-time\": item.json['start-time']\n  })\nreturn output"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2160,
+        -288
+      ],
+      "id": "231308d1-2cc8-4964-94a1-8e9723bb90be",
+      "name": "Strips RSVP ID and Event Length"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
+          "mode": "list",
+          "cachedResultName": "TECH AVENGERS EVENTS"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 327148464,
+          "mode": "list",
+          "cachedResultName": "Raw Running Events"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2832,
+        -384
+      ],
+      "id": "49bcacaa-fd2c-4e6d-89ac-d4ff49d1947d",
+      "name": "Get all Active Events",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n5DtDm71m0RITfm0",
+          "name": "BR Tech Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
+          "mode": "list",
+          "cachedResultName": "TECH AVENGERS SIGN UP"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2019391119,
+          "mode": "list",
+          "cachedResultName": "Member List"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2608,
+        -96
+      ],
+      "id": "67370c90-4e82-41f8-a70b-37b296ad5afd",
+      "name": "Get Member List",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n5DtDm71m0RITfm0",
+          "name": "BR Tech Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "real_user_data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -2160,
+        -96
+      ],
+      "id": "9c2fac23-f8c1-44b6-9f33-84393f42aa74",
+      "name": "Aggregate Member Data"
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch",
+        "output": "empty"
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -1936,
+        -192
+      ],
+      "id": "fb0daa6c-343b-4bfd-acff-abc3bc475e55",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "output: list = [] # final output\n\n# get the list of RSVP IDs once\nfor item in _('Strips RSVP ID and Event Length').all():\n  RSVP: list = []  # start with an empty list\n  RSVP_ID = item.json.user_ids\n\n  for user in _('Aggregate Member Data').first().json.real_user_data:\n    if user.id in RSVP_ID:\n      RSVP.append(user)\n  output.append({\n    \"RSVP\": RSVP,\n    \"event\": item.json.name,\n    \"duration\": {\n      \"hours\": item.json['duration']['hours'],\n      \"minutes\": item.json['duration']['minutes']\n    },\n    \"date\": item.json['date'],\n    \"start-time\": item.json['start-time']\n  })\nreturn output"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1712,
+        -192
+      ],
+      "id": "b92e0bac-6f24-4203-b7dc-ea42a734d358",
+      "name": "Get List of RSVP Users",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2aa58a92-dc3e-42d0-9bd1-cf6fb5b2e97e",
+              "name": "real_name",
+              "value": "={{ $json['What is your Full Name?'] }}",
+              "type": "string"
+            },
+            {
+              "id": "8022ce3c-70c8-4c95-9d14-132318116771",
+              "name": "discord_username",
+              "value": "={{ $json['What is your Discord Username?'] }}",
+              "type": "string"
+            },
+            {
+              "id": "c7db01c9-eb28-4a56-982c-0858248b5d65",
+              "name": "id",
+              "value": "={{ $json['Discord User ID (Obtain via n8n)'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2384,
+        -96
+      ],
+      "id": "c588ded5-3931-4da0-852c-70aba4a1bfe3",
+      "name": "Format Member Info"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "39cee5d2-07f9-4bc0-bcca-a1f1477286de",
+              "name": "name",
+              "value": "={{ $('Get all Active Events').item.json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "97619b17-869d-4500-a29e-1697bfba8a1a",
+              "name": "date",
+              "value": "={{ $json.embeds[0].fields[0].value.split(\":\")[1].toDateTime('s').format(\"yyyy-MM-dd\") }}",
+              "type": "string"
+            },
+            {
+              "id": "bba2289b-ba0b-4d4e-8f1b-e0dc55f4b199",
+              "name": "start-time",
+              "value": "={{ $json.embeds[0].fields[0].value.split(\":\")[1].toDateTime('s').format(\"HH:mm\") }}",
+              "type": "string"
+            },
+            {
+              "id": "98f376e4-c63f-439f-a7a6-fed53f7ea4b6",
+              "name": "raw-duration",
+              "value": "={{ $json.embeds[0].fields[1].value }}",
+              "type": "string"
+            },
+            {
+              "id": "3a21c0fb-312c-4a23-96db-7713b65a468c",
+              "name": "raw-rsvp",
+              "value": "={{ $json.embeds[0].fields[2].value }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2384,
+        -288
+      ],
+      "id": "9fe5e3c5-ad22-4d32-b3dd-7c8c589f3cfe",
+      "name": "Grab Event Info"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "RSVP",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1488,
+        -192
+      ],
+      "id": "36e37fdb-2419-4052-90cc-34d832a79141",
+      "name": "Split Out for Names"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
+          "mode": "list",
+          "cachedResultName": "TECH AVENGERS EVENTS"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2086431696,
+          "mode": "list",
+          "cachedResultName": "Raw Sign-Up Data"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2608,
+        -480
+      ],
+      "id": "777ffbc4-3af0-4a50-a482-15a1288649b6",
+      "name": "Get Sign up Data",
+      "executeOnce": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
           "id": "n5DtDm71m0RITfm0",
@@ -607,663 +911,148 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict",
+            "typeValidation": "loose",
             "version": 2
           },
           "conditions": [
             {
-              "id": "6a113fc3-ed5f-41a7-95f8-2c3b557c4a85",
-              "leftValue": "={{ $now }}",
-              "rightValue": "={{ $json.embeds[0].description.split('\\n')[1].substring(3,13).toDateTime('s') }}",
+              "id": "121372c9-1ba6-4ab2-9a38-75d4cace96fd",
+              "leftValue": "={{ $json.Confirmed }}",
+              "rightValue": "false",
               "operator": {
-                "type": "dateTime",
-                "operation": "beforeOrEquals"
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
               }
             }
           ],
           "combinator": "and"
         },
+        "looseTypeValidation": true,
         "options": {}
       },
-      "type": "n8n-nodes-base.if",
+      "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        -1648,
-        224
+        -2384,
+        -480
       ],
-      "id": "b46a0d82-27b5-4519-8d6a-8d8e4345de87",
-      "name": "Has Event Started"
+      "id": "a590e1ce-f903-4c1d-a71a-1ae029936af7",
+      "name": "Filter for Running Events"
     },
     {
       "parameters": {
-        "aggregate": "aggregateAllItemData",
-        "destinationFieldName": "real_user_data",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
-      "position": [
-        -752,
-        -64
-      ],
-      "id": "c77a389e-ade8-49c1-a9ba-8b2b947e8813",
-      "name": "Aggregate Real User Data"
-    },
-    {
-      "parameters": {
-        "fieldsToAggregate": {
-          "fieldToAggregate": [
-            {
-              "fieldToAggregate": "user",
-              "renameField": true,
-              "outputFieldName": "discord_user"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
-      "position": [
-        -752,
-        -256
-      ],
-      "id": "9672501b-17eb-4050-b10f-d7755fc61cb1",
-      "name": "Aggregate Discord User Data"
-    },
-    {
-      "parameters": {
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "1374588309317091429",
-          "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1425106319165362246",
-          "mode": "list",
-          "cachedResultName": "bot-channel",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429/1425106319165362246"
-        },
-        "content": "=Removing RSVP Confirm for {{ $('Get Newest Event').item.json.embeds[0].title }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        -1424,
-        320
-      ],
-      "id": "77f03e0f-4177-4c1b-8616-d10a0dbbe32f",
-      "name": "Send a Confirm Flow Start Msg for Removing RSVP",
-      "webhookId": "c52d1ce5-cda3-4061-bbd6-27444186acce",
-      "credentials": {
-        "discordBotApi": {
-          "id": "lxmu4MZqGPxvdKGx",
-          "name": "Sesh Scraper"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "member",
-        "guildId": {
-          "__rl": true,
-          "value": "1374588309317091429",
-          "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
-        },
-        "returnAll": true,
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        -1872,
-        -2112
-      ],
-      "id": "9014f37e-17bb-487a-9dc7-dc62dafaebf0",
-      "name": "Get User(s) Info Again",
-      "webhookId": "4027b227-e757-405e-84da-2e338349d1ec",
-      "credentials": {
-        "discordBotApi": {
-          "id": "lxmu4MZqGPxvdKGx",
-          "name": "Sesh Scraper"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "user_ids",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [
-        -528,
-        320
-      ],
-      "id": "3169d73c-2841-49a5-a67a-8d53ad790f31",
-      "name": "Split Out for ID Again"
-    },
-    {
-      "parameters": {
-        "resource": "member",
-        "operation": "roleRemove",
-        "guildId": {
-          "__rl": true,
-          "value": "1374588309317091429",
-          "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
-        },
-        "userId": {
-          "__rl": true,
-          "value": "={{ $json.user_ids }}",
-          "mode": "id"
-        },
-        "role": [
-          "1425487853537726624"
-        ]
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        -304,
-        320
-      ],
-      "id": "f1210632-aab3-4d77-b001-4bfc4a9f79bf",
-      "name": "Remove a RSVP Confirmed to a User",
-      "webhookId": "5db31189-7cac-4d60-a903-b339d0c81fdd",
-      "credentials": {
-        "discordBotApi": {
-          "id": "lxmu4MZqGPxvdKGx",
-          "name": "Sesh Scraper"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "language": "python",
-        "pythonCode": "output = []  # start with an empty list\nEventID = _('Get Newest Event').first().json.embeds[0].description\nStripNumR = EventID.rindex(\"/\")\nEventID = EventID[StripNumR+1:]\noutput.append({\n  'EventID': EventID,\n})\n\nreturn output\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -1200,
-        320
-      ],
-      "id": "f081f006-e3d4-4877-bbc7-ff65d69f3c0a",
-      "name": "Strip Event msgID - F"
-    },
-    {
-      "parameters": {
-        "resource": "message",
-        "operation": "get",
-        "guildId": {
-          "__rl": true,
-          "value": "1374588309317091429",
-          "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1425628143481393272",
-          "mode": "list",
-          "cachedResultName": "event-sign-up",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429/1425628143481393272"
-        },
-        "messageId": "={{ $json.EventID.split('\\n')[0] }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        -976,
-        320
-      ],
-      "id": "60bfd5d0-d6c3-49b4-9ec3-fb7bfb9c0539",
-      "name": "Get Announcement Msg - F",
-      "webhookId": "f32c852d-2f89-4e23-9aa8-2a2735e2d65c",
-      "credentials": {
-        "discordBotApi": {
-          "id": "lxmu4MZqGPxvdKGx",
-          "name": "Sesh Scraper"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "language": "python",
-        "pythonCode": "output : list = []  # start with an empty list\nuser_ids : list = [] # used to store IDs \nif len(_input.first().json.embeds[0].fields) == 3: # When There is a Duration Set\n  # Dealing With User ID\n  userIDs = _input.first().json.embeds[0].fields[2].value\n  garbage_char = [\"<\",\">\",\"@\",\" \"]\n  for char in garbage_char:\n    userIDs = userIDs.replace(char,\"\")\n  for ID in userIDs.split(\"\\n\"):\n    user_ids.append(ID)\n\n  # Dealing with Duration\n\n  # Step 1 Separate Hours and Minutes\n  temp = \"1 hour, 20 minutes\"\n  rawDuration = temp.split(\", \")\n  print(rawDuration)\n  # Formating into Output  \n  output = [{\n    \"user_ids\": user_ids,\n    \"duration\": _input.first().json.embeds[0].fields[1].value\n  }]\nelif len(_input.first().json.embeds[0].fields) == 2: # When There is no Duration\n  # Dealing With User ID\n  userIDs = _input.first().json.embeds[0].fields[1].value\n  garbage_char = [\"<\",\">\",\"@\",\" \"]\n  for char in garbage_char:\n    userIDs = userIDs.replace(char,\"\")\n  for ID in userIDs.split(\"\\n\"):\n    user_ids.append(ID)\n  output = [{\n    \"user_ids\": user_ids\n  }]\nreturn output"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -752,
-        320
-      ],
-      "id": "6e1a0ee9-de2f-4aef-b1e9-07f79ac308ac",
-      "name": "Strips RSVP - F"
-    },
-    {
-      "parameters": {
-        "language": "python",
-        "pythonCode": "output = []  # start with an empty list\nEventID = _input.first().json.embeds[0].description\nStripNumR = EventID.rindex(\"/\")\nEventID = EventID[StripNumR+1:]\noutput.append({\n  'EventID': EventID,\n})\n\nreturn output\n"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -752,
-        128
-      ],
-      "id": "2c8e239e-c539-434e-bc38-0f25128e48c5",
-      "name": "Strip Event msgID - T"
-    },
-    {
-      "parameters": {
-        "resource": "message",
-        "operation": "get",
-        "guildId": {
-          "__rl": true,
-          "value": "1374588309317091429",
-          "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1425628143481393272",
-          "mode": "list",
-          "cachedResultName": "event-sign-up",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429/1425628143481393272"
-        },
-        "messageId": "={{ $json.EventID.split('\\n')[0] }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        -528,
-        128
-      ],
-      "id": "63ec2365-fe75-4c32-82cf-bb5b05eb0cfc",
-      "name": "Get Announcement Msg - T",
-      "webhookId": "02eea8eb-a481-42eb-9f23-890633bc2cb2",
-      "credentials": {
-        "discordBotApi": {
-          "id": "lxmu4MZqGPxvdKGx",
-          "name": "Sesh Scraper"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "language": "python",
-        "pythonCode": "output : list = []  # start with an empty list\nuser_ids : list = [] # used to store IDs \nif len(_input.first().json.embeds[0].fields) == 3: # When There is a Duration Set\n  # Dealing With User ID\n  userIDs = _input.first().json.embeds[0].fields[2].value\n  garbage_char = [\"<\",\">\",\"@\",\" \"]\n  for char in garbage_char:\n    userIDs = userIDs.replace(char,\"\")\n  for ID in userIDs.split(\"\\n\"):\n    user_ids.append(ID)\n\n  # Step 1 Separate Hours and Minutes\n  rawDuration = _input.first().json.embeds[0].fields[1].value.split(\" \")\n  if len(rawDuration) > 2:\n    rawDuration.pop(3)\n  else:\n    rawDuration.append('00')\n  rawDuration.pop(1)\n  # Formating into Output  \n  output = [{\n    \"user_ids\": user_ids,\n    \"duration\": {\n      \"hours\": str(rawDuration[0]),\n      \"minutes\": str(rawDuration[1])\n    }\n  }]\nelif len(_input.first().json.embeds[0].fields) == 2: # When There is no Duration\n  # Dealing With User ID\n  userIDs = _input.first().json.embeds[0].fields[1].value\n  garbage_char = [\"<\",\">\",\"@\",\" \"]\n  for char in garbage_char:\n    userIDs = userIDs.replace(char,\"\")\n  for ID in userIDs.split(\"\\n\"):\n    user_ids.append(ID)\n  output = [{\n    \"user_ids\": user_ids\n  }]\nreturn output"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -304,
-        128
-      ],
-      "id": "839c0995-2faf-4a51-a0aa-b5024c0d5285",
-      "name": "Strips RSVP and Length - T"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "e04364d4-520b-43ed-b458-7f871de6b3ee",
-              "name": "=body.msgID",
-              "value": "=1428441827865792713",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -2096,
-        32
-      ],
-      "id": "88f1b412-1d20-4429-86b9-60a91d0e17f0",
-      "name": "Manual ID"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.errorTrigger",
-      "typeVersion": 1,
-      "position": [
-        -2096,
-        -2336
-      ],
-      "id": "5aa698b6-1106-4474-bd6a-7a27a206c930",
-      "name": "Error Trigger"
-    },
-    {
-      "parameters": {
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "1374588309317091429",
-          "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1425106319165362246",
-          "mode": "list",
-          "cachedResultName": "bot-channel",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429/1425106319165362246"
-        },
-        "content": "An error has occurred, go check n8n logs\n",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        -1872,
-        -2336
-      ],
-      "id": "babdd939-7bae-4f11-bad8-3fcacab108c2",
-      "name": "Error Message",
-      "webhookId": "e5611f21-e1b2-4471-a21a-53956eccac4d",
-      "credentials": {
-        "discordBotApi": {
-          "id": "lxmu4MZqGPxvdKGx",
-          "name": "Sesh Scraper"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "techcrew/scrape",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
-      "position": [
-        -2096,
-        224
-      ],
-      "id": "387c8e16-e664-4f6b-b0b2-f1e2771fe298",
-      "name": "Webhook for Events",
-      "webhookId": "a296703c-fceb-4bca-b628-9b57417e3b62"
-    },
-    {
-      "parameters": {
-        "rule": {
-          "interval": [
-            {}
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.2,
-      "position": [
-        -2096,
-        -2112
-      ],
-      "id": "9c5dfe4f-00f4-473a-bd32-4ec6bb03c48d",
-      "name": "12:00am Trigger"
-    },
-    {
-      "parameters": {
-        "rule": {
-          "interval": [
-            {
-              "field": "weeks",
-              "triggerAtDay": [
-                1
-              ],
-              "triggerAtHour": 7
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.2,
-      "position": [
-        -2096,
-        -1888
-      ],
-      "id": "910f5e13-14ec-4e21-82d0-73cb4173a7b9",
-      "name": "Monday Trigger"
-    },
-    {
-      "parameters": {
-        "operation": "getAll",
-        "calendar": {
-          "__rl": true,
-          "value": "4f5fde8102282db0db652d5f61ba385a19db3341bef025baa96d50367546502c@group.calendar.google.com",
-          "mode": "list",
-          "cachedResultName": "Grease Musical Schedule"
-        },
-        "returnAll": true,
-        "timeMin": "={{ $today }}",
-        "timeMax": "={{ $today.plus({ week: 1 }) }}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleCalendar",
-      "typeVersion": 1.3,
-      "position": [
-        -1872,
-        -1888
-      ],
-      "id": "4341ea51-48d4-4cd6-88e7-b47efc8eefcf",
-      "name": "Get many events",
-      "credentials": {
-        "googleCalendarOAuth2Api": {
-          "id": "dvlwXOIUrXBkE5Zb",
-          "name": "Main Google Account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "html": "={{ $json.description }}",
-        "destinationKey": "description-markdown",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.markdown",
-      "typeVersion": 1,
-      "position": [
-        -1648,
-        -1888
-      ],
-      "id": "fb644dd2-7011-4fb3-8e37-eb0e00ce42c9",
-      "name": "Markdown"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "a71a9845-8769-489c-83f9-870061a8115f",
-              "name": "name",
-              "value": "={{ $json.summary }}",
-              "type": "string"
-            },
-            {
-              "id": "b62ff5dd-68ea-4de5-a305-d9889e4cf400",
-              "name": "description",
-              "value": "={{ $json['description-markdown'] }}",
-              "type": "string"
-            },
-            {
-              "id": "5608721c-33fc-4ec9-987e-550d6b346671",
-              "name": "startTime",
-              "value": "={{ $json.start.dateTime }}",
-              "type": "string"
-            },
-            {
-              "id": "a6aa6a2b-fef9-4d1a-8ea9-94d241e3686b",
-              "name": "=duration",
-              "value": "={{ $json.end.dateTime.toDateTime().format('HH') - $json.start.dateTime.toDateTime().format('HH') }} h {{ $json.end.dateTime.toDateTime().format('mm')-$json.start.dateTime.toDateTime().format('mm') }} m",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1424,
-        -1888
-      ],
-      "id": "b4ead0c4-df40-4524-8800-2200fce5594d",
-      "name": "Grabing n8n"
-    },
-    {
-      "parameters": {
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "1374588309317091429",
-          "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1425106319165362246",
-          "mode": "list",
-          "cachedResultName": "bot-channel",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429/1425106319165362246"
-        },
-        "content": "=```\n/create title:{{ $json.name }} description:{{ $json.description }} datetime:{{ $json.startTime }} duration:{{ $json.duration }} on_create_mentions:@Musical Team\n```",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        -1200,
-        -1696
-      ],
-      "id": "961710b7-6a76-42d2-a10b-ecd8d54eaadc",
-      "name": "Send Musical Event Creation Msg",
-      "webhookId": "982c75a0-c368-42c8-adce-e3aca1161688",
-      "credentials": {
-        "discordBotApi": {
-          "id": "lxmu4MZqGPxvdKGx",
-          "name": "Sesh Scraper"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "1374588309317091429",
-          "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
-        },
-        "channelId": {
-          "__rl": true,
-          "value": "1425106319165362246",
-          "mode": "list",
-          "cachedResultName": "bot-channel",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429/1425106319165362246"
-        },
-        "content": "# New Event Commands:",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        -1200,
-        -1888
-      ],
-      "id": "d70138c9-df8d-498e-84c9-859eb4ca246b",
-      "name": "Start Msg",
-      "webhookId": "a5ac0236-748d-457d-92fc-2b7e5af7dd66",
-      "executeOnce": true,
-      "credentials": {
-        "discordBotApi": {
-          "id": "lxmu4MZqGPxvdKGx",
-          "name": "Sesh Scraper"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "e04364d4-520b-43ed-b458-7f871de6b3ee",
-              "name": "=body.userID",
-              "value": "=696861453935968328",
-              "type": "string"
-            },
-            {
-              "id": "56a5d7ab-665b-4d45-81d1-7451906155c1",
-              "name": "body.command",
-              "value": "hours",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -2096,
-        -1280
-      ],
-      "id": "2dec9987-20ae-442b-855d-9e8e947292cd",
-      "name": "Manual User ID"
-    },
-    {
-      "parameters": {
+        "operation": "append",
         "documentId": {
           "__rl": true,
           "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
           "mode": "list",
-          "cachedResultName": "TECH AVENGERS EVENTS",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit?usp=drivesdk"
+          "cachedResultName": "TECH AVENGERS EVENTS"
         },
         "sheetName": {
           "__rl": true,
-          "value": 2019391119,
+          "value": 2086431696,
           "mode": "list",
-          "cachedResultName": "Member List",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit#gid=2019391119"
+          "cachedResultName": "Raw Sign-Up Data"
         },
-        "filtersUI": {
-          "values": [
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.RSVP.real_name }}",
+            "Event": "={{ $json.event }}",
+            "Date": "={{ $json.date }}",
+            "Start Time": "={{ $json['start-time'] }}",
+            "End Time": "={{ $json['start-time'].toDateTime().plus($json.duration.hours, 'hour').plus($json.duration.minutes, 'min').format('HH:MM') }}",
+            "Total Time": "={{ $json.duration.hours }}:{{ $json.duration.minutes }}:00"
+          },
+          "matchingColumns": [],
+          "schema": [
             {
-              "lookupColumn": "Discord User ID (Obtain via n8n)",
-              "lookupValue": "={{ $json.body.userID }}"
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Event",
+              "displayName": "Event",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Start Time",
+              "displayName": "Start Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "End Time",
+              "displayName": "End Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Time",
+              "displayName": "Total Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Confirmed",
+              "displayName": "Confirmed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "No Show",
+              "displayName": "No Show",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
             }
-          ]
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
         },
-        "combineFilters": "OR",
         "options": {}
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -1872,
-        -1184
+        -1264,
+        -192
       ],
-      "id": "afe772d8-d271-47e7-845e-4572add6f81a",
-      "name": "Get User Name",
+      "id": "2c05f813-410e-4398-acb9-acb5cc58d027",
+      "name": "Send Sign out List",
       "credentials": {
         "googleSheetsOAuth2Api": {
           "id": "n5DtDm71m0RITfm0",
@@ -1273,234 +1062,24 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
+        "sortFieldsUi": {
+          "sortField": [
             {
-              "id": "2aa58a92-dc3e-42d0-9bd1-cf6fb5b2e97e",
-              "name": "real_name",
-              "value": "={{ $json['What is your Full Name?'] }}",
-              "type": "string"
-            },
-            {
-              "id": "8022ce3c-70c8-4c95-9d14-132318116771",
-              "name": "discord_username",
-              "value": "={{ $json['What is your Discord Username?'] }}",
-              "type": "string"
-            },
-            {
-              "id": "c7db01c9-eb28-4a56-982c-0858248b5d65",
-              "name": "id",
-              "value": "={{ $json['Discord User ID (Obtain via n8n)'] }}",
-              "type": "string"
+              "fieldName": "row_number",
+              "order": "descending"
             }
           ]
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -976,
-        -64
-      ],
-      "id": "f80e19ce-8b7a-4b55-b971-5331655d7ea2",
-      "name": "Format Fields to something Nice"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "2aa58a92-dc3e-42d0-9bd1-cf6fb5b2e97e",
-              "name": "real_name",
-              "value": "={{ $json['What is your Full Name?'] }}",
-              "type": "string"
-            },
-            {
-              "id": "8022ce3c-70c8-4c95-9d14-132318116771",
-              "name": "discord_username",
-              "value": "={{ $json['What is your Discord Username?'] }}",
-              "type": "string"
-            },
-            {
-              "id": "c7db01c9-eb28-4a56-982c-0858248b5d65",
-              "name": "id",
-              "value": "={{ $json['Discord User ID (Obtain via n8n)'] }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1648,
-        -1184
-      ],
-      "id": "ab593096-38e4-4f17-aa01-ce79db56c078",
-      "name": "Format Fields to something Nice again"
-    },
-    {
-      "parameters": {
-        "pollTimes": {
-          "item": [
-            {
-              "mode": "everyHour"
-            }
-          ]
-        },
-        "documentId": {
-          "__rl": true,
-          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
-          "mode": "list",
-          "cachedResultName": "TECH AVENGERS SIGN UP",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 337938258,
-          "mode": "list",
-          "cachedResultName": "EVENTS",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit#gid=337938258"
-        },
-        "event": "rowAdded",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "type": "n8n-nodes-base.sort",
       "typeVersion": 1,
       "position": [
-        -1648,
-        -1552
+        -2160,
+        -480
       ],
-      "id": "ff8a677a-2e4f-4dd7-8aab-9ac494ab0bbd",
-      "name": "Check if New Event Has been Added",
-      "credentials": {
-        "googleSheetsTriggerOAuth2Api": {
-          "id": "uGEEamx2dA8Niivx",
-          "name": "BR Tech Account"
-        }
-      }
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        -1424,
-        -1552
-      ],
-      "id": "6a21b979-dc1b-4389-96dc-2fb447cfdcee",
-      "name": "No Operation, do nothing"
-    },
-    {
-      "parameters": {
-        "resource": "message",
-        "guildId": {
-          "__rl": true,
-          "value": "1374588309317091429",
-          "mode": "list",
-          "cachedResultName": "BR Tech Crew",
-          "cachedResultUrl": "https://discord.com/channels/1374588309317091429"
-        },
-        "sendTo": "user",
-        "userId": {
-          "__rl": true,
-          "value": "477525247806013440",
-          "mode": "list",
-          "cachedResultName": "triforcegb"
-        },
-        "content": "We Got info from the Event Sheet",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.discord",
-      "typeVersion": 2,
-      "position": [
-        -1200,
-        -1504
-      ],
-      "id": "aecb2b97-9a1c-4f81-8651-39bdc92f8f37",
-      "name": "Debug Message",
-      "webhookId": "d9ca6afd-f230-4043-96cb-26a4ef5cff1f",
-      "credentials": {
-        "discordBotApi": {
-          "id": "lxmu4MZqGPxvdKGx",
-          "name": "Sesh Scraper"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
-          "mode": "list",
-          "cachedResultName": "TECH AVENGERS SIGN UP",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 1821597503,
-          "mode": "list",
-          "cachedResultName": "Ranking Sheet",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit#gid=1821597503"
-        },
-        "filtersUI": {
-          "values": [
-            {
-              "lookupColumn": "Name",
-              "lookupValue": "={{ $json.real_name }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        -1424,
-        -1184
-      ],
-      "id": "d615a7ce-e830-478b-9cd3-aa7f9109a55a",
-      "name": "Get User Hour Info",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "n5DtDm71m0RITfm0",
-          "name": "BR Tech Account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "techcrew/command/hours",
-        "responseMode": "responseNode",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
-      "position": [
-        -2096,
-        -1088
-      ],
-      "id": "7d9c2933-1c39-40f1-ab2f-55368e892b6c",
-      "name": "Webhook for Hour Command",
-      "webhookId": "6098ca3a-3536-4653-9d49-b17b9f3a77d0"
-    },
-    {
-      "parameters": {
-        "respondWith": "json",
-        "responseBody": "={\n  \"name\": \"{{ $json.Name }}\",\n  \"overall\": {\n    \"hours\": \"{{ $json['Total Hours'] }}\",\n    \"rank\": {{ $json.Rank }}\n  },\n  \"yearly\": {\n    \"hours\": \"{{ $json['Total Hours (This Year)'] }}\",\n    \"rank\": {{ $json['Rank (This Year)'] }}\n  }\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.4,
-      "position": [
-        -1200,
-        -1184
-      ],
-      "id": "02bb28b5-da36-4883-bd63-43e075bb89a3",
-      "name": "Respond to Hour Command"
+      "id": "ffc8b145-d82a-4ac5-9008-490b572317f1",
+      "name": "Sort From Top to Bottom"
     },
     {
       "parameters": {
@@ -1510,10 +1089,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        -752,
-        -672
+        -1712,
+        320
       ],
-      "id": "877ac2ca-e55f-458c-b086-88e527bb9d93",
+      "id": "0fe975c4-3e03-4a17-b0c9-c3202c83ae1f",
       "name": "Respond to Rank"
     },
     {
@@ -1526,10 +1105,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -2096,
-        -672
+        -3056,
+        320
       ],
-      "id": "92a44d89-4131-49ad-9859-7bc9f9c25864",
+      "id": "f4b40bb6-ba2a-4514-906e-3d392b901b19",
       "name": "Webhook for Rankings",
       "webhookId": "6098ca3a-3536-4653-9d49-b17b9f3a77d0"
     },
@@ -1547,10 +1126,10 @@
       "type": "n8n-nodes-base.sort",
       "typeVersion": 1,
       "position": [
-        -976,
-        -672
+        -1936,
+        320
       ],
-      "id": "f3ac477c-d394-4398-b9be-23c8bf174733",
+      "id": "6bc5d328-1ea5-4606-a8f9-cca43fa395e8",
       "name": "Sort"
     },
     {
@@ -1573,7 +1152,7 @@
               "id": "1ee0fff4-1944-4670-9b8d-6c0a6d706741",
               "name": "rank",
               "value": "={{ $json.Rank }}",
-              "type": "string"
+              "type": "number"
             }
           ]
         },
@@ -1582,10 +1161,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1424,
-        -672
+        -2384,
+        320
       ],
-      "id": "10956680-7f6f-4bbe-bdb5-196c033de602",
+      "id": "b2374790-1aa5-4173-9b60-70e094188412",
       "name": "Rename Overall"
     },
     {
@@ -1594,25 +1173,23 @@
           "__rl": true,
           "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
           "mode": "list",
-          "cachedResultName": "TECH AVENGERS SIGN UP",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit?usp=drivesdk"
+          "cachedResultName": "TECH AVENGERS SIGN UP"
         },
         "sheetName": {
           "__rl": true,
           "value": 1821597503,
           "mode": "list",
-          "cachedResultName": "Ranking Sheet",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit#gid=1821597503"
+          "cachedResultName": "Ranking Sheet"
         },
         "options": {}
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -1872,
-        -576
+        -2832,
+        416
       ],
-      "id": "39b4dc08-b84f-4d8f-a077-2e0a84809f96",
+      "id": "5be61982-9917-43de-a26d-1fe70b3a2292",
       "name": "Get Rank Info",
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -1677,10 +1254,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.3,
       "position": [
-        -1648,
-        -576
+        -2608,
+        416
       ],
-      "id": "4dcc23aa-d169-4911-bc88-fc8876238d5b",
+      "id": "2cf0106d-5df6-438a-b9db-a9ed8245e8c0",
       "name": "Event Type"
     },
     {
@@ -1703,7 +1280,7 @@
               "id": "e3e92140-c557-425d-88ed-606496c0a0e4",
               "name": "rank",
               "value": "={{ $json['Rank (This Year)'] }}",
-              "type": "string"
+              "type": "number"
             }
           ]
         },
@@ -1712,10 +1289,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1424,
-        -480
+        -2384,
+        512
       ],
-      "id": "243c5ce5-8c4f-4b97-86bb-3ec7d6ee1519",
+      "id": "9896aaec-f0c6-4458-a3a3-68658a7cfe74",
       "name": "Rename Yearly"
     },
     {
@@ -1724,15 +1301,13 @@
           "__rl": true,
           "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
           "mode": "list",
-          "cachedResultName": "TECH AVENGERS EVENTS",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit?usp=drivesdk"
+          "cachedResultName": "TECH AVENGERS EVENTS"
         },
         "sheetName": {
           "__rl": true,
           "value": 2019391119,
           "mode": "list",
-          "cachedResultName": "Member List",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw/edit#gid=2019391119"
+          "cachedResultName": "Member List"
         },
         "combineFilters": "OR",
         "options": {}
@@ -1740,10 +1315,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -1648,
-        -864
+        -2608,
+        128
       ],
-      "id": "fe272282-65d9-41ab-9a78-d8cf8e42a399",
+      "id": "77483efb-f401-488d-a5fe-e1e861f71aaf",
       "name": "Get User List",
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -1763,10 +1338,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        -1200,
-        -672
+        -2160,
+        320
       ],
-      "id": "d3b7302f-127e-4550-95d2-694516391567",
+      "id": "933c447e-6f25-4221-a585-e508275827e3",
       "name": "Merge info"
     },
     {
@@ -1792,361 +1367,763 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1424,
-        -864
+        -2384,
+        128
       ],
-      "id": "34d073a0-614f-42c5-8a7c-ddf2c936fc1c",
+      "id": "5140ee9b-4c2d-485e-ac2d-32ba62afd852",
       "name": "Filter and Rename Fields"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
+          "mode": "list",
+          "cachedResultName": "TECH AVENGERS EVENTS"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2019391119,
+          "mode": "list",
+          "cachedResultName": "Member List"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Discord User ID (Obtain via n8n)",
+              "lookupValue": "={{ $json.body.userID }}"
+            }
+          ]
+        },
+        "combineFilters": "OR",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2832,
+        736
+      ],
+      "id": "069c5ef1-0b09-4e5e-8d3b-47cfcdbb70ba",
+      "name": "Get User Name",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n5DtDm71m0RITfm0",
+          "name": "BR Tech Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
+          "mode": "list",
+          "cachedResultName": "TECH AVENGERS SIGN UP"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1821597503,
+          "mode": "list",
+          "cachedResultName": "Ranking Sheet"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Name",
+              "lookupValue": "={{ $json.real_name }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2384,
+        736
+      ],
+      "id": "cefb3ba4-9700-4ad4-a791-60109c503e99",
+      "name": "Get User Hour Info",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n5DtDm71m0RITfm0",
+          "name": "BR Tech Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "techcrew/command/hours",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -3056,
+        736
+      ],
+      "id": "4859fe77-5581-420f-b69c-2b66c60c9358",
+      "name": "Webhook for Hour Command",
+      "webhookId": "6098ca3a-3536-4653-9d49-b17b9f3a77d0"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"name\": \"{{ $json.Name }}\",\n  \"overall\": {\n    \"hours\": \"{{ $json['Total Hours'] }}\",\n    \"rank\": {{ $json.Rank }}\n  },\n  \"yearly\": {\n    \"hours\": \"{{ $json['Total Hours (This Year)'] }}\",\n    \"rank\": {{ $json['Rank (This Year)'] }}\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        -2160,
+        736
+      ],
+      "id": "d2befe5d-d5b3-498b-845a-76b5d67fc664",
+      "name": "Respond to Hour Command"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2aa58a92-dc3e-42d0-9bd1-cf6fb5b2e97e",
+              "name": "real_name",
+              "value": "={{ $json['What is your Full Name?'] }}",
+              "type": "string"
+            },
+            {
+              "id": "8022ce3c-70c8-4c95-9d14-132318116771",
+              "name": "discord_username",
+              "value": "={{ $json['What is your Discord Username?'] }}",
+              "type": "string"
+            },
+            {
+              "id": "c7db01c9-eb28-4a56-982c-0858248b5d65",
+              "name": "id",
+              "value": "={{ $json['Discord User ID (Obtain via n8n)'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2608,
+        736
+      ],
+      "id": "3ccdff27-4271-4503-b543-a3b690c6f956",
+      "name": "Format Fields to something Nice"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "get",
+        "guildId": {
+          "__rl": true,
+          "value": "1374588309317091429",
+          "mode": "list",
+          "cachedResultName": "BR Tech Crew"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1425628143481393272",
+          "mode": "list",
+          "cachedResultName": "event-sign-up"
+        },
+        "messageId": "={{ $json.event_id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -2160,
+        -1280
+      ],
+      "id": "a6e61353-70d3-4e05-b972-60f2a61e7839",
+      "name": "Get Warning Event Message",
+      "webhookId": "5fe4d912-fdec-4931-b663-6277c3b28bf2",
+      "credentials": {
+        "discordBotApi": {
+          "id": "lxmu4MZqGPxvdKGx",
+          "name": "Sesh Scraper"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "output : list = []  # start with an empty list\nfor item in _input.all():\n  # Dealing With User ID\n  user_ids : list = [] # used to store IDs \n  userIDs = item.json['embeds'][0]['fields'][2]['value']\n  userIDs = userIDs.split(\" \")[1]\n  userIDs = userIDs.replace(\"\\n\",\" \")\n\n  output.append({\n    \"rsvp\": userIDs,\n    \"name\": item.json.embeds[0].title.split(\"**\")[1],\n    \"msg_id\": item.json.id,\n    \"channel_id\": item.json.channel_id,\n    \"server_id\": 1374588309317091429\n  })\nreturn output"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1936,
+        -1280
+      ],
+      "id": "7e3b4c34-aa1b-4964-8110-e2137fd7834c",
+      "name": "Strips RSVP ID"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1374588309317091429",
+          "mode": "list",
+          "cachedResultName": "BR Tech Crew"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1425628541461991605",
+          "mode": "list",
+          "cachedResultName": "event-notices"
+        },
+        "content": "={{ $json.rsvp }}",
+        "options": {},
+        "embeds": {
+          "values": [
+            {
+              "description": "=https://discord.com/channels/{{ $json.server_id }}/{{ $json.channel_id }}/{{ $json.msg_id }}",
+              "author": "=",
+              "color": "#FF0000",
+              "title": "=**{{ $json.name }}** Starting Soon",
+              "url": "="
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -1712,
+        -1280
+      ],
+      "id": "f3f7c619-2e71-450e-b5d9-7154b7418498",
+      "name": "Send Warning Message",
+      "webhookId": "2f99022a-5f07-4356-a1eb-432053a6d64d",
+      "credentials": {
+        "discordBotApi": {
+          "id": "lxmu4MZqGPxvdKGx",
+          "name": "Sesh Scraper"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
+          "mode": "list",
+          "cachedResultName": "TECH AVENGERS EVENTS"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2086431696,
+          "mode": "list",
+          "cachedResultName": "Raw Sign-Up Data"
+        },
+        "startIndex": "={{ $json.row_number }}",
+        "numberToDelete": "=1"
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1936,
+        -480
+      ],
+      "id": "63f85d27-9753-45e0-8234-fd7dc5d56bca",
+      "name": "Delete Non Confirmed RSVP",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n5DtDm71m0RITfm0",
+          "name": "BR Tech Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
+          "mode": "list",
+          "cachedResultName": "TECH AVENGERS EVENTS"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2086431696,
+          "mode": "list",
+          "cachedResultName": "Raw Sign-Up Data"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2160,
+        -1088
+      ],
+      "id": "7cb801f4-b88b-436c-8bc8-8b1fcd89b79f",
+      "name": "Get Raw Sign Up",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n5DtDm71m0RITfm0",
+          "name": "BR Tech Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "03bd0cdf-8b21-4b29-aced-c087b417a28d",
+              "leftValue": "={{ $('If').item.json.event }}",
+              "rightValue": "={{ $json.Event }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "33fff210-68a6-49a2-acbc-266c9e00380c",
+              "leftValue": "={{ $('If').item.json['start-time'].split(\":\")[1].toDateTime('s').format('yyyy-MM-dd')}}",
+              "rightValue": "={{ $json.Date.toDateTime().format('yyyy-MM-dd') }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -1936,
+        -1088
+      ],
+      "id": "4449eb10-d4a9-4e32-81e2-ca8cb72c8313",
+      "name": "Filter for Started Events"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
+          "mode": "list",
+          "cachedResultName": "TECH AVENGERS EVENTS"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2086431696,
+          "mode": "list",
+          "cachedResultName": "Raw Sign-Up Data"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $json.row_number }}",
+            "Confirmed": "true"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Event",
+              "displayName": "Event",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Start Time",
+              "displayName": "Start Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "End Time",
+              "displayName": "End Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Time",
+              "displayName": "Total Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Confirmed",
+              "displayName": "Confirmed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "No Show",
+              "displayName": "No Show",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1712,
+        -1088
+      ],
+      "id": "1a55fc42-d9d1-45ab-a7b1-9d20796a2e2e",
+      "name": "Confirmed Hours",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n5DtDm71m0RITfm0",
+          "name": "BR Tech Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
+          "mode": "list",
+          "cachedResultName": "TECH AVENGERS EVENTS"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 327148464,
+          "mode": "list",
+          "cachedResultName": "Raw Running Events"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2160,
+        -896
+      ],
+      "id": "e6e1a29b-b576-4949-a87b-d150cdbac08e",
+      "name": "Get Running Events",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n5DtDm71m0RITfm0",
+          "name": "BR Tech Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "03bd0cdf-8b21-4b29-aced-c087b417a28d",
+              "leftValue": "={{ $('If').item.json.event }}",
+              "rightValue": "={{ $json.Name }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "33fff210-68a6-49a2-acbc-266c9e00380c",
+              "leftValue": "={{ $('If').item.json['start-time'].split(\":\")[1].toDateTime('s').format('yyyy-MM-dd')}}",
+              "rightValue": "={{ $json['Start Time'] }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -1936,
+        -896
+      ],
+      "id": "9916b5c3-55c1-4d53-a9a3-82df55c05073",
+      "name": "Filter for Started Events (1)"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "get",
+        "guildId": {
+          "__rl": true,
+          "value": "1374588309317091429",
+          "mode": "list",
+          "cachedResultName": "BR Tech Crew"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1425628143481393272",
+          "mode": "list",
+          "cachedResultName": "event-sign-up"
+        },
+        "messageId": "={{ $json.body.id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -2832,
+        -1504
+      ],
+      "id": "b7421c69-3be2-4470-8487-d1c1a6c560bc",
+      "name": "Get a New Event",
+      "webhookId": "8b775486-f28c-4600-9885-560281799909",
+      "credentials": {
+        "discordBotApi": {
+          "id": "lxmu4MZqGPxvdKGx",
+          "name": "Sesh Scraper"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "get",
+        "guildId": {
+          "__rl": true,
+          "value": "1374588309317091429",
+          "mode": "list",
+          "cachedResultName": "BR Tech Crew"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1425106319165362246",
+          "mode": "list",
+          "cachedResultName": "bot-channel"
+        },
+        "messageId": "={{ $json.body.id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -2832,
+        -1088
+      ],
+      "id": "8a14b0a3-b968-44d8-8be7-a2474ec97129",
+      "name": "Get Update Msg",
+      "webhookId": "1bf17173-7e3d-4479-9d01-61c3f5250474",
+      "credentials": {
+        "discordBotApi": {
+          "id": "lxmu4MZqGPxvdKGx",
+          "name": "Sesh Scraper"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "904a4463-41e7-4a1a-be3a-25d009689691",
+              "leftValue": "={{ $json.type }}",
+              "rightValue": "warning",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2384,
+        -1088
+      ],
+      "id": "2d404c27-119d-48fc-bfc9-dd144202c8e7",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "59ea72a2-1885-43a1-b694-010939e577c9",
+              "name": "event",
+              "value": "={{ $json.embeds[0].title }}",
+              "type": "string"
+            },
+            {
+              "id": "c6ec3846-5d58-4698-be18-50207918148d",
+              "name": "event_id",
+              "value": "={{ $json.embeds[0].description.split('\\n')[1].split('/')[6] }}",
+              "type": "string"
+            },
+            {
+              "id": "484c3c78-6e12-4fff-a677-2ba1e1345ad5",
+              "name": "start-time",
+              "value": "={{ $json.embeds[0].description.split('\\n')[2] }}",
+              "type": "string"
+            },
+            {
+              "id": "e9eb1820-6e6d-4135-b8bf-aef66e04b659",
+              "name": "type",
+              "value": "={{ $json.embeds[0].description.split('\\n')[0] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2608,
+        -1088
+      ],
+      "id": "a1d7f67d-fb3a-41de-91bc-ba3eef660bb7",
+      "name": "Renamed Needed Fields"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "18SLwiyRlRUYxtBDuGINRgRQxieXuQJ6Djgq_7UEErCw",
+          "mode": "list",
+          "cachedResultName": "TECH AVENGERS EVENTS"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 327148464,
+          "mode": "list",
+          "cachedResultName": "Raw Running Events"
+        },
+        "startIndex": "={{ $json.row_number }}"
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1728,
+        -896
+      ],
+      "id": "70fcd4a9-f469-489a-b749-48a9c79feb40",
+      "name": "Delete Running Event",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "n5DtDm71m0RITfm0",
+          "name": "BR Tech Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "techcrew/event/update",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -3056,
+        -1088
+      ],
+      "id": "5b8a1efd-d34c-40ae-aa21-104ff6c86818",
+      "name": "Update Event",
+      "webhookId": "a3d247bb-bd8b-4b7a-b8bf-74229bbea168"
     }
   ],
-  "pinData": {},
   "connections": {
-    "Get User(s) Info": {
-      "main": [
-        [
-          {
-            "node": "Aggregate Discord User Data",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get List of RSVP Users": {
-      "main": [
-        [
-          {
-            "node": "Start Message",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Split Out for ID",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Split Out for Names",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Start Message": {
-      "main": [
-        [
-          {
-            "node": "Format to a list of Names",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Newest Event": {
-      "main": [
-        [
-          {
-            "node": "Has Event Started",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Merge Discord Data": {
-      "main": [
-        [
-          {
-            "node": "Get List of RSVP Users",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Merge Discord and Real Data": {
-      "main": [
-        [
-          {
-            "node": "Merge Discord Data",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Merge": {
-      "main": [
-        [
-          {
-            "node": "Merge Discord and Real Data",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Format to a list of Names": {
-      "main": [
-        [
-          {
-            "node": "RSVP People",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send Sign out List": {
-      "main": [
-        [
-          {
-            "node": "Send a message",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send a Confirm Flow Start Msg for RSVP": {
-      "main": [
-        [
-          {
-            "node": "Get User(s) Info",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Get List of Real Name for Discord Accounts",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Split Out for ID": {
-      "main": [
-        [
-          {
-            "node": "Add a role to a member",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Split Out for Names": {
-      "main": [
-        [
-          {
-            "node": "Send Sign out List",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Has Event Started": {
-      "main": [
-        [
-          {
-            "node": "Send a Confirm Flow Start Msg for RSVP",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Strip Event msgID - T",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Send a Confirm Flow Start Msg for Removing RSVP",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "RSVP People": {
-      "main": [
-        [],
-        []
-      ]
-    },
-    "Get List of Real Name for Discord Accounts": {
-      "main": [
-        [
-          {
-            "node": "Format Fields to something Nice",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Aggregate Real User Data": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "Aggregate Discord User Data": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send a Confirm Flow Start Msg for Removing RSVP": {
-      "main": [
-        [
-          {
-            "node": "Strip Event msgID - F",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get User(s) Info Again": {
-      "main": [
-        [
-          {
-            "node": "Update row in sheet",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Split Out for ID Again": {
-      "main": [
-        [
-          {
-            "node": "Remove a RSVP Confirmed to a User",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Strip Event msgID - F": {
-      "main": [
-        [
-          {
-            "node": "Get Announcement Msg - F",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Announcement Msg - F": {
-      "main": [
-        [
-          {
-            "node": "Strips RSVP - F",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Strips RSVP - F": {
-      "main": [
-        [
-          {
-            "node": "Split Out for ID Again",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Strip Event msgID - T": {
-      "main": [
-        [
-          {
-            "node": "Get Announcement Msg - T",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Announcement Msg - T": {
-      "main": [
-        [
-          {
-            "node": "Strips RSVP and Length - T",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Strips RSVP and Length - T": {
-      "main": [
-        [
-          {
-            "node": "Merge Discord Data",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
-    "Manual ID": {
-      "main": [
-        [
-          {
-            "node": "Get Newest Event",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Error Trigger": {
       "main": [
         [
           {
             "node": "Error Message",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Webhook for Events": {
-      "main": [
-        [
-          {
-            "node": "Get Newest Event",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "12:00am Trigger": {
-      "main": [
-        [
-          {
-            "node": "Get User(s) Info Again",
             "type": "main",
             "index": 0
           }
@@ -2162,11 +2139,6 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "Update row in sheet": {
-      "main": [
-        []
       ]
     },
     "Get many events": {
@@ -2195,56 +2167,7 @@
       "main": [
         [
           {
-            "node": "Send Musical Event Creation Msg",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Start Msg",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Manual User ID": {
-      "main": [
-        [
-          {
-            "node": "Get User Name",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Format Fields to something Nice": {
-      "main": [
-        [
-          {
-            "node": "Aggregate Real User Data",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get User Name": {
-      "main": [
-        [
-          {
-            "node": "Format Fields to something Nice again",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Format Fields to something Nice again": {
-      "main": [
-        [
-          {
-            "node": "Get User Hour Info",
+            "node": "Sort Start Time",
             "type": "main",
             "index": 0
           }
@@ -2255,18 +2178,34 @@
       "main": [
         [
           {
-            "node": "No Operation, do nothing",
+            "node": "Edit Event Info",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "No Operation, do nothing": {
+    "Sort Start Time": {
       "main": [
         [
           {
-            "node": "Debug Message",
+            "node": "Start Msg",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Musical Event Creation Msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Event Info": {
+      "main": [
+        [
+          {
+            "node": "New Event Message",
             "type": "main",
             "index": 0
           },
@@ -2278,22 +2217,191 @@
         ]
       ]
     },
-    "Get User Hour Info": {
+    "New Event": {
       "main": [
         [
           {
-            "node": "Respond to Hour Command",
+            "node": "Get a New Event",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Webhook for Hour Command": {
+    "Hourly Check": {
       "main": [
         [
           {
-            "node": "Get User Name",
+            "node": "Get User(s) Info",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get all Active Events",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Member List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get User(s) Info": {
+      "main": [
+        [
+          {
+            "node": "Update Discord ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a Event Message(s)": {
+      "main": [
+        [
+          {
+            "node": "Grab Event Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Strips RSVP ID and Event Length": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get all Active Events": {
+      "main": [
+        [
+          {
+            "node": "Get a Event Message(s)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Sign up Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Member List": {
+      "main": [
+        [
+          {
+            "node": "Format Member Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate Member Data": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Get List of RSVP Users",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Member Info": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Member Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Grab Event Info": {
+      "main": [
+        [
+          {
+            "node": "Strips RSVP ID and Event Length",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out for Names": {
+      "main": [
+        [
+          {
+            "node": "Send Sign out List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get List of RSVP Users": {
+      "main": [
+        [
+          {
+            "node": "Split Out for Names",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Sign up Data": {
+      "main": [
+        [
+          {
+            "node": "Filter for Running Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter for Running Events": {
+      "main": [
+        [
+          {
+            "node": "Sort From Top to Bottom",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort From Top to Bottom": {
+      "main": [
+        [
+          {
+            "node": "Delete Non Confirmed RSVP",
             "type": "main",
             "index": 0
           }
@@ -2410,6 +2518,188 @@
           }
         ]
       ]
+    },
+    "Get User Name": {
+      "main": [
+        [
+          {
+            "node": "Format Fields to something Nice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get User Hour Info": {
+      "main": [
+        [
+          {
+            "node": "Respond to Hour Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook for Hour Command": {
+      "main": [
+        [
+          {
+            "node": "Get User Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Fields to something Nice": {
+      "main": [
+        [
+          {
+            "node": "Get User Hour Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Warning Event Message": {
+      "main": [
+        [
+          {
+            "node": "Strips RSVP ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Strips RSVP ID": {
+      "main": [
+        [
+          {
+            "node": "Send Warning Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Raw Sign Up": {
+      "main": [
+        [
+          {
+            "node": "Filter for Started Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter for Started Events": {
+      "main": [
+        [
+          {
+            "node": "Confirmed Hours",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confirmed Hours": {
+      "main": [
+        []
+      ]
+    },
+    "Get Running Events": {
+      "main": [
+        [
+          {
+            "node": "Filter for Started Events (1)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter for Started Events (1)": {
+      "main": [
+        [
+          {
+            "node": "Delete Running Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a New Event": {
+      "main": [
+        [
+          {
+            "node": "Add New Event to Running Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Update Msg": {
+      "main": [
+        [
+          {
+            "node": "Renamed Needed Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Get Warning Event Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Raw Sign Up",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Running Events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Renamed Needed Fields": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Event": {
+      "main": [
+        [
+          {
+            "node": "Get Update Msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -2418,11 +2708,18 @@
     "callerPolicy": "workflowsFromSameOwner",
     "errorWorkflow": "h9Vs1YeoqTovMXqd"
   },
-  "versionId": "728c58ff-e7dc-4273-bd01-6a45dbcb95cb",
+  "versionId": "73b16b0d-f703-410c-990a-c906f9fb8d2c",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "14421c7bbd88cd20f35e905f1bcd6cdf0c217cad23ef5234c74aad36bbb25ad5"
   },
-  "id": "i19BUQwONvc1j9xa",
-  "tags": []
+  "id": "yG4hiAy2BDAXsoqR",
+  "tags": [
+    {
+      "createdAt": "2025-11-13T17:18:32.531Z",
+      "updatedAt": "2025-11-13T17:18:32.531Z",
+      "id": "As3GMNssqnfh1quC",
+      "name": "Tech Crew"
+    }
+  ]
 }
